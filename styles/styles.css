@@ -1,0 +1,29 @@
+html {
+    scroll-behavior: smooth;
+    font-family: 'Ubuntu', sans-serif;
+}
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+    background: #222;
+}
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+}
+.black {
+    background: #050505;
+}
+.gray {
+    background: #111;
+}
+h1 {
+    font-weight: 700;
+    font-style: italic;
+}
+footer > span {
+    color: #222;
+}

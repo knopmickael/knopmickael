@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- SEO -->
+    <title>Rickson Mickael Knop</title>
+    <meta name="description" content="Meu portfólio como desenvolver de software.">
+    <meta name="keywords" content="software, desenvolvimento, web development, website, site, sistema">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Rickson Mickael Knop">
+
+    <!-- Compatibility -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Rickson Mickael Knop - Developer Portfolium">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.knopmickael.herokuapp.com.br">
+    <meta property="og:image" content="./assets/favicon.png">
+    <meta property="og:image:width" content="192">
+    <meta property="og:image:height" content="192">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Styles -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
+
+    <!-- Scripts -->
+    <script src="/scripts/scripts.js"></script>
+</head>
+<body>
+    <header class="hidden">
+        <span>Greetings, welcome to my personal portfolio...</span>
+    </header>
+
+    <main id="main" class="gray text-white w-full transition-all duration-700 overflow-hidden">
+        <!-- Navigation Bar -->
+        <nav id="navigationBar" class="z-10 fixed transform -translate-x-20 h-screen flex flex-col items-center sm:justify-center pl-2 2xl:pl-4 transition-all duration-700">
+            <a class="navigationBtn" href="#">
+                <svg class="h-6 sm:h-8 2xl:h-14 w-6 sm:w-8 2xl:w-14 mt-4 sm:mt-0 my-1 opacity-40 transition-all duration-200 hover:opacity-80 transform hover:translate-x-2 hover:scale-125" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+            </a>
+            <a class="navigationBtn" href="#about">
+                <svg class="h-6 sm:h-8 2xl:h-14 w-6 sm:w-8 2xl:w-14 my-1 opacity-40 transition-all duration-200 hover:opacity-80 transform hover:translate-x-2 hover:scale-125" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+            </a>
+            <a class="navigationBtn" href="#skills">
+                <svg class="h-6 sm:h-8 2xl:h-14 w-6 sm:w-8 2xl:w-14 my-1 opacity-40 transition-all duration-200 hover:opacity-80 transform hover:translate-x-2 hover:scale-125" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+                </svg>
+            </a>
+            <a class="navigationBtn" href="#projects">
+                <svg class="h-6 sm:h-8 2xl:h-14 w-6 sm:w-8 2xl:w-14 my-1 opacity-40 transition-all duration-200 hover:opacity-80 transform hover:translate-x-2 hover:scale-125" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                    <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                </svg>
+            </a>
+            <a class="navigationBtn" href="#contact">
+                <svg class="h-6 sm:h-8 2xl:h-14 w-6 sm:w-8 2xl:w-14 my-1 opacity-40 transition-all duration-200 hover:opacity-80 transform hover:translate-x-2 hover:scale-125" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </nav>
+
+        <!-- Hero -->
+        <section class="h-screen flex flex-col items-center justify-center space-y-2">
+            <img id="profileImage" class="rounded-full h-0 mb-2 2xl:mb-6 shadow-xl transition-all duration-500" src="/assets/profile.jpg" alt="Rickson Mickael Knop - Desenvolvedor">
+            <h1 id="fullName" class="text-2xl sm:text-4xl 2xl:text-7xl font-bold opacity-0 transition-all duration-500">Rickson Mickael Knop</h1>
+            <h2 id="role" class="text-xl xl:text-2xl 2xl:text-5xl opacity-0 transition-all duration-500">Desenvolvedor</h2>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="black h-screen flex flex-col items-center justify-center">
+            <h1 class="text-2xl sm:text-4xl 2xl:text-7xl font-bold transition-all duration-700 opacity-0 transform translate-x-10">Sobre mim</h1>
+            <article class="text-justify mt-8 leading-7 md:leading-8 2xl:leading-loose mx-8 sm:mx-20 md:mx-40 xl:mx-64 md:text-lg 2xl:text-4xl transition-all duration-700 opacity-0 transform translate-x-10">
+                <p>Entrei na faculdade de Sistemas de Informação no início do ano de 2015 e desde então aprimorei meus conhecimentos em desenvolvimento de softwares para a web. Atualmente sou bacharel e mantenho meus estudos de maneira autodidata. Já desenvolvi projetos para clientes particulares e agências digitais. Comecei a lidar com a tecnologia desde muito jovem através do console PlayStation One da Sony e até hoje sou entusiasta de jogos e do mundo tecnológico.</p>    
+            </article>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills" class="h-screen flex flex-col items-center relative">
+            <h1 class="text-2xl sm:text-4xl 2xl:text-7xl text-center font-bold mt-32 transition-all duration-700 opacity-0 transform translate-x-10">Habilidades <br class="sm:hidden"/> Principais</h1>
+            
+            <div class="z-10 flex mt-8 2xl:mt-14 bg-white rounded-xl divide-x divide-gray-200 overflow-hidden transition-all duration-700 opacity-0 transform translate-x-10">
+                <img onclick="showInfo('laravel')" class="h-20 lg:h-28 2xl:h-44 cursor-pointer transition-all duration-300 transform hover:scale-110" src="/assets/skills/main/laravel.png" alt="">
+                <img onclick="showInfo('vue')" class="h-20 lg:h-28 2xl:h-44 cursor-pointer transition-all duration-300 transform hover:scale-110" src="/assets/skills/main/vue.png" alt="">
+                <img onclick="showInfo('tailwind')" class="h-20 lg:h-28 2xl:h-44 cursor-pointer transition-all duration-300 transform hover:scale-110" src="/assets/skills/main/tailwind.png" alt="">
+            </div>
+            
+            <div id="curSkillInfoBox" class="text-center text-sm md:text-lg mx-8 sm:mx-28 mt-4 transform transition-all duration-700 -translate-y-10 opacity-0"></div>
+
+            <div class="absolute bottom-8 2xl:bottom-12 left-auto text-center transition-all duration-700 opacity-0 transform translate-x-10">
+                <div class="flex flex-wrap justify-center mx-4">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/html.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/css.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/js.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/jquery.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/php.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/node.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/mysql.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/sqlite.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/rest.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/electron.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/expo.png" alt="">
+                    <img class="h-10 2xl:h-20 m-1 2xl:m-2 opacity-30 transition-all duration-300 hover:opacity-80 cursor-pointer" src="/assets/skills/default/git.png" alt="">
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="black flex flex-col items-center justify-center py-16 2xl:py-32">
+            <h1 class="opacity-0 transform translate-x-10 transition-all duration-700 text-2xl sm:text-4xl 2xl:text-7xl font-bold">Projetos</h1>
+
+            <div class="opacity-0 transform translate-x-10 transition-all duration-700 mt-8 xl:mt-6 2xl:mt-20 flex flex-col sm:flex-row sm:flex-wrap space-y-8 sm:space-y-0 mx-8 lg:mx-32">
+                <div class="flex flex-col space-y-2 2xl:space-y-6 sm:w-3/6 sm:p-6">
+                    <h2 class="text-center font-bold sm:text-2xl xl:text-xl 2xl:text-3xl">CAUMAQ - Health Technology</h2>
+                    <a href="https://caumaq.com.br/" target="_blank">
+                        <img class="rounded-md transition-all duration-300 transform hover:translate-y-2 hover:opacity-50" src="/assets/projects/caumaq.jpg" alt="">
+                    </a>
+                </div>
+
+                <div class="flex flex-col space-y-2 2xl:space-y-6 sm:w-3/6 sm:p-6">
+                    <h2 class="text-center font-bold sm:text-2xl xl:text-xl 2xl:text-3xl">Garupa Food - Cachoeira do Sul</h2>
+                    <a href="https://garupa-food-cachoeira.herokuapp.com/" target="_blank">
+                        <img class="rounded-md transition-all duration-300 transform hover:translate-y-2 hover:opacity-50" src="/assets/projects/garupa.jpg" alt="">
+                    </a>
+                </div>
+
+                <div class="flex flex-col space-y-2 2xl:space-y-6 sm:w-3/6 sm:p-6">
+                    <h2 class="text-center font-bold sm:text-2xl xl:text-xl 2xl:text-3xl">TRIOMIDIA - Comunicação Total</h2>
+                    <a href="https://triomidia.herokuapp.com/" target="_blank">
+                        <img class="rounded-md transition-all duration-300 transform hover:translate-y-2 hover:opacity-50" src="/assets/projects/triomidia.jpg" alt="">
+                    </a>
+                </div>
+
+                <div class="flex flex-col space-y-2 2xl:space-y-6 sm:w-3/6 sm:p-6">
+                    <h2 class="text-center font-bold sm:text-2xl xl:text-xl 2xl:text-3xl">Líder - Soluções para o Agro</h2>
+                    <a target="_blank">
+                        <img class="rounded-md transition-all duration-300 transform hover:translate-y-2 hover:opacity-50" src="/assets/projects/lider.jpg" alt="">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="flex flex-col items-center justify-center py-16 2xl:py-32">
+            <h1 class="transition-all duration-300 opacity-0 transform translate-x-10 text-2xl sm:text-4xl 2xl:text-7xl font-bold">Contato</h1>
+
+            <div class="transition-all duration-700 opacity-0 transform translate-x-10 mt-8 sm:mt-10 2xl:mt-20 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 2xl:space-x-10">
+                <a href="https://www.github.com/knopmickael" target="_blank">
+                    <img class="h-12 2xl:h-28 opacity-30 transition-all duration-300 hover:opacity-80 transform hover:scale-125" src="/assets/contact/github.png" alt="">
+                </a>
+                <a href="https://www.linkedin.com/in/rickson-mickael-knop123/" target="_blank">
+                    <img class="h-12 2xl:h-28 opacity-30 transition-all duration-300 hover:opacity-80 transform hover:scale-125" src="/assets/contact/linkedin.png" alt="">
+                </a>
+                <a href="mailto:knopmickael@gmail.com" target="_blank">
+                    <img class="opacity-30 transition-all duration-300 hover:opacity-80 h-12 2xl:h-28 transform hover:scale-125" src="/assets/contact/gmail.png" alt="">
+                </a>
+                <a href="wa.me/+5551991000416" target="_blank">
+                    <img class="opacity-30 transition-all duration-300 hover:opacity-80 h-12 2xl:h-28 transform hover:scale-125" src="/assets/contact/whatsapp.png" alt="">
+                </a>
+                <a href="tel:+5551991000416" target="_blank">
+                    <img class="opacity-30 transition-all duration-300 hover:opacity-80 h-12 2xl:h-28 transform hover:scale-125" src="/assets/contact/phone.png" alt="">
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="black text-white flex items-center justify-center py-8">
+        <span class="text-sm 2xl:text-2xl">Copyrights &copy; Rickson Mickael Knop</span>
+    </footer>
+</body>
+</html>

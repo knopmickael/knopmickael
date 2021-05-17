@@ -1,0 +1,12 @@
+{
+  "short_name": "RMK - Portfolium",
+  "name": "Rickson Mickael Knop - Developer Portfolium",
+  "icons": [{
+    "src": "/assets/favicon.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }],
+  "start_url": "/",
+  "background_color": "#050505",
+  "theme_color": "#111"
+}
