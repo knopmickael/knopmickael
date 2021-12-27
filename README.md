@@ -1,4 +1,4 @@
-<h1>Hello there, &#10024;</h1>
+<h1>Hello there, :wave:</h1>
 <p>&#129490; I’m 24yo from Cachoeira do Sul – RS - Brazil.</p>
 <p>Graduated in Information Systems, I current work with web development (but already made a little bit of everything).</p>
 <a href="https://knopmickael.neosapience.com.br" target="_blank">&#127760; I got a website, you can check it here.</a>
