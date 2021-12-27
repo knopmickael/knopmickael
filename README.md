@@ -2,7 +2,7 @@
 <p>&#129490; I’m 24yo from Cachoeira do Sul – RS - Brazil.</p>
 <p>:briefcase: Graduated in Information Systems, I current work with web development (but already made a little bit of everything).</p>
 <p><a href="https://knopmickael.neosapience.com.br" target="_blank">&#127760; I got a website, you can check it here.</a></p>
-<p>&#128051; Techs I use to work with: php 5.6+, Slim, Laravel, ES5, Vue.js, Angular1, Express.js, MySQL, MongoDB, Git</p>
+<p>&#128051; Techs I use to work with: php 5.6+, Slim, Laravel, ES5+, Vue.js, Angular1, Express.js, MySQL, MongoDB, Git</p>
 <hr/>
 <p>If you wanna talk to me, you can find me here:</p>
 <ul>
