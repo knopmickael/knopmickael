@@ -9,5 +9,4 @@
     <li><a href="https://www.linkedin.com/in/rickson-mickael-knop123/" target="_blank">LinkedIn</a></li>
     <li><a href="mailto:knopmickael@gmail.com" target="_blank">E-mail</a></li>
     <li><a href="https://wa.me/+5551991000416" target="_blank">WhatsApp</a></li>
-    <li><a href="tel:+5551991000416" target="_blank">Or just call me maybe (+5551991000416)</a></li>
 </ul>
