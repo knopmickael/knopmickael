@@ -27,11 +27,9 @@ h1 {
 footer > span {
     color: #222;
 }
-
 .skillball {
     filter: grayscale(90%) opacity(30%);
 }
-
 .skillball:hover {
     filter: grayscale(0) opacity(90%);
 }

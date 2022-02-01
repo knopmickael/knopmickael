@@ -1,4 +1,72 @@
-window.addEventListener("load", function(event) {
+const flushSkillInfo = () => stackinfo.innerHTML = "";
+
+const handleActiveMenu = (current, next) => {
+    if (current != null && current.length == 0) current = 'home';
+    if (current == null || current == 'undefined') current = 'home';
+    if (next.length == 0) next = 'home';
+    currentActiveId = current == 'Link' ? 'homeLink' : current + 'Link';
+    toActivateId = next == 'Link' ? 'homeLink' : next + 'Link';
+    let currentActiveLink = document.getElementById(currentActiveId);
+    let toActivateLink = document.getElementById(toActivateId);
+    let activateClasses = ['translate-x-2', 'scale-125', 'opacity-80'];
+    currentActiveLink.classList.remove('translate-x-2', 'scale-125', 'opacity-80');
+    toActivateLink.classList.add('translate-x-2', 'scale-125', 'opacity-80');
+};
+
+const toggleSkill = (skill) => {
+    let skills = [
+        {
+            "name": "PHP",
+            "content": "PHP is a popular general-purpose scripting language that is especially suited to web development."
+        },
+        {
+            "name": "Slim",
+            "content": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs."
+        },
+        {
+            "name": "Laravel",
+            "content": "Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things."
+        },
+        {
+            "name": "MySQL",
+            "content": "MySQL Database Service is a fully managed database service to deploy cloud-native applications. HeatWave, an integrated, high-performance query accelerator boosts MySQL performance by 5400x."
+        },
+        {
+            "name": "JavaScript",
+            "content": "JavaScript is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions."
+        },
+        {
+            "name": "AngularJS",
+            "content": "AngularJS is a toolset for building the framework most suited to your application development. It is fully extensible and works well with other libraries."
+        },
+        {
+            "name": "Vue.js",
+            "content": "Vue.js is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable."
+        },
+        {
+            "name": "Node.js",
+            "content": "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine."
+        },
+        {
+            "name": "Express",
+            "content": "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications."
+        },
+        {
+            "name": "MongoDB",
+            "content": "MongoDB is a free, open-source, cross-platform document-oriented database software written in the C++ language. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas."
+        }
+    ];
+    skills.forEach(s => {
+        if (s.name == skill) {
+            let stackinfo = document.getElementById('stackinfo');
+            stackinfo.innerHTML = s.content;
+        }
+    });
+}
+
+window.addEventListener("load", function(e) {
+    handleActiveMenu(null, window.location.hash);
+
     setTimeout(() => {
         setTimeout(() => {
             let profileImage = document.getElementById("profileImage");
@@ -17,7 +85,7 @@ window.addEventListener("load", function(event) {
     }, 500);
 });
 
-window.addEventListener("scroll", function() {
+window.addEventListener("scroll", function(e) {
     let aboutSection = document.getElementById("about");
     let skillsSection = document.getElementById("skills");
     let projectsSection = document.getElementById("projects");
@@ -76,64 +144,20 @@ window.addEventListener("scroll", function() {
     }
 
     function isScrolledIntoView(el) {
-        var rect = el.getBoundingClientRect();
-        var elemTop = rect.top;
-        var elemBottom = rect.bottom;
-        var isVisible = elemTop < window.innerHeight && elemBottom >= 0;
-        return isVisible;
+        if (el != null) {
+            var rect = el.getBoundingClientRect();
+            var elemTop = rect.top;
+            var elemBottom = rect.bottom;
+            var isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+            return isVisible;
+        }
     }  
 });
 
-const toggleSkill = (skill) => {
-    console.log(skill)
-    let skills = [
-        {
-            "name": "PHP",
-            "content": "PHP is a popular general-purpose scripting language that is especially suited to web development."
-        },
-        {
-            "name": "Slim",
-            "content": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs."
-        },
-        {
-            "name": "Laravel",
-            "content": "Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things."
-        },
-        {
-            "name": "MySQL",
-            "content": "MySQL Database Service is a fully managed database service to deploy cloud-native applications. HeatWave, an integrated, high-performance query accelerator boosts MySQL performance by 5400x."
-        },
-        {
-            "name": "JavaScript",
-            "content": "JavaScript is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions."
-        },
-        {
-            "name": "AngularJS",
-            "content": "AngularJS is a toolset for building the framework most suited to your application development. It is fully extensible and works well with other libraries."
-        },
-        {
-            "name": "Vue.js",
-            "content": "Vue.js is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable."
-        },
-        {
-            "name": "Node.js",
-            "content": "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine."
-        },
-        {
-            "name": "Express",
-            "content": "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications."
-        },
-        {
-            "name": "MongoDB",
-            "content": "MongoDB is a free, open-source, cross-platform document-oriented database software written in the C++ language. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas."
-        }
-    ];
-    skills.forEach(s => {
-        if (s.name == skill) {
-            let stackinfo = document.getElementById('stackinfo');
-            stackinfo.innerHTML = s.content;
-        }
-    });
-}
-
-const flushSkillInfo = () => stackinfo.innerHTML = "";
+window.addEventListener('hashchange', function(e) {
+    let currentActiveId = e.oldURL.split('#')[1];
+    let toActivateId = e.newURL.split('#')[1];
+    if (currentActiveId == null || currentActiveId == 'undefined')
+        handleActiveMenu(null, toActivateId);
+    else handleActiveMenu(currentActiveId, toActivateId);
+});
