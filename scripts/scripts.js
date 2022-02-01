@@ -29,7 +29,7 @@ const toggleSkill = (skill) => {
         },
         {
             "name": "MySQL",
-            "content": "MySQL Database Service is a fully managed database service to deploy cloud-native applications. HeatWave, an integrated, high-performance query accelerator boosts MySQL performance by 5400x."
+            "content": "MySQL is a database management system, which uses the SQL language as an interface. It is currently one of Oracle's most popular database management systems."
         },
         {
             "name": "JavaScript",
@@ -53,7 +53,7 @@ const toggleSkill = (skill) => {
         },
         {
             "name": "MongoDB",
-            "content": "MongoDB is a free, open-source, cross-platform document-oriented database software written in the C++ language. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas."
+            "content": "MongoDB is a open-source, cross-platform document-oriented database software written in the C++. Classified as a NoSQL database, uses JSON documents with schemas."
         }
     ];
     skills.forEach(s => {
