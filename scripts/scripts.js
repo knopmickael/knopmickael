@@ -84,32 +84,56 @@ window.addEventListener("scroll", function() {
     }  
 });
 
-// function showInfo(curSkill) {
-//     var curSkillInfoBox = document.getElementById("curSkillInfoBox");
+const toggleSkill = (skill) => {
+    console.log(skill)
+    let skills = [
+        {
+            "name": "PHP",
+            "content": "PHP is a popular general-purpose scripting language that is especially suited to web development."
+        },
+        {
+            "name": "Slim",
+            "content": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs."
+        },
+        {
+            "name": "Laravel",
+            "content": "Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things."
+        },
+        {
+            "name": "MySQL",
+            "content": "MySQL Database Service is a fully managed database service to deploy cloud-native applications. HeatWave, an integrated, high-performance query accelerator boosts MySQL performance by 5400x."
+        },
+        {
+            "name": "JavaScript",
+            "content": "JavaScript is a lightweight, interpreted, or just-in-time compiled programming language with first-class functions."
+        },
+        {
+            "name": "AngularJS",
+            "content": "AngularJS is a toolset for building the framework most suited to your application development. It is fully extensible and works well with other libraries."
+        },
+        {
+            "name": "Vue.js",
+            "content": "Vue.js is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable."
+        },
+        {
+            "name": "Node.js",
+            "content": "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine."
+        },
+        {
+            "name": "Express",
+            "content": "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications."
+        },
+        {
+            "name": "MongoDB",
+            "content": "MongoDB is a free, open-source, cross-platform document-oriented database software written in the C++ language. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas."
+        }
+    ];
+    skills.forEach(s => {
+        if (s.name == skill) {
+            let stackinfo = document.getElementById('stackinfo');
+            stackinfo.innerHTML = s.content;
+        }
+    });
+}
 
-//     switch(curSkill) {
-//         case "laravel":
-//             curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
-//             setTimeout(() => {
-//                 curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Laravel</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Laravel é um framework PHP full-stack criado para o desenvolvimento de sistemas web que utilizam o padrão MVC.</p>";
-//                 curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
-//             }, 500);
-//             break;
-//         case "vue":
-//             curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
-//             setTimeout(() => {
-//                 curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Vue.js</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Vue.js é um framework JavaScript focado no desenvolvimento de interfaces de usuário e aplicativos de página única.</p>";
-//                 curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
-//             }, 500);
-//             break;
-//         case "tailwind":
-//             curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
-//             setTimeout(() => {
-//                 curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Tailwind CSS</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Tailwind CSS é um framework CSS voltado para a construção de páginas amigáveis aplicando conceitos de Utility First.</p>";
-//                 curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
-//             }, 500);
-//             break;
-//         default:
-//             break;
-//     }
-// }
+const flushSkillInfo = () => stackinfo.innerHTML = "";

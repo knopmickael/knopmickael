@@ -77,60 +77,63 @@
 
         <!-- Hero -->
         <section class="h-screen flex flex-col items-center justify-center space-y-2">
-            <img id="profileImage" class="rounded-full h-0 mb-2 2xl:mb-6 shadow-xl transition-all duration-500" src="/assets/profile.jpg" alt="Rickson Mickael Knop - Desenvolvedor">
+            <img id="profileImage" class="rounded-full h-0 mb-2 2xl:mb-6 shadow-xl transition-all duration-500" src="/assets/profile.jpg" alt="Rickson Mickael Knop - Developer">
             <h1 id="fullName" class="text-2xl sm:text-4xl 2xl:text-7xl font-bold opacity-0 transition-all duration-500">Rickson Mickael Knop</h1>
-            <h2 id="role" class="text-xl xl:text-2xl 2xl:text-5xl opacity-0 transition-all duration-500">Desenvolvedor</h2>
+            <h2 id="role" class="text-xl xl:text-2xl 2xl:text-5xl opacity-0 transition-all duration-500">Developer</h2>
         </section>
 
         <!-- About -->
         <section id="about" class="black h-screen flex flex-col items-center justify-center">
-            <h1 class="text-2xl sm:text-4xl 2xl:text-7xl font-bold transition-all duration-700 opacity-0 transform translate-x-10">Sobre mim</h1>
+            <h1 class="text-2xl sm:text-4xl 2xl:text-7xl font-bold transition-all duration-700 opacity-0 transform translate-x-10">About me</h1>
             <article class="text-justify mt-8 leading-7 md:leading-8 2xl:leading-loose mx-8 sm:mx-20 md:mx-40 xl:mx-64 md:text-lg 2xl:text-3xl transition-all duration-700 opacity-0 transform translate-x-10">
-                <p>Entrei na faculdade de Sistemas de Informação no início do ano de 2015 e desde então aprimorei meus conhecimentos em desenvolvimento de softwares para a web. Atualmente sou bacharel e mantenho meus estudos de maneira autodidata. Já desenvolvi projetos para clientes particulares e agências digitais. Comecei a lidar com a tecnologia desde muito jovem através do console PlayStation One da Sony e até hoje sou entusiasta de jogos e do mundo tecnológico.</p>    
+                <p>
+                    Solid knowledges of frontend and backend technologies, in addition to experiences with infrastructure in Digital Ocean and AWS. I entered the Faculty of Information Systems at the beginning of the year 2015 and since then I have improved my knowledge in software development for the web. I currently have a bachelor's degree and I maintain my studies in a self-taught way. I have already developed projects for private clients and digital agencies. I started dealing with technology from a very young age through Sony's PlayStation One console and to untill today I'm an enthusiast of games and the technological world.
+                </p>
             </article>
         </section>
 
         <!-- Skills -->
-        <section id="skills" class="h-screen flex flex-col items-center justify-center">
-            <h1 class="text-2xl sm:text-4xl 2xl:text-7xl font-bold transition-all duration-700 opacity-0 transform translate-x-10">Conhecimentos</h1>
+        <section id="skills" class="h-screen flex flex-col items-center justify-center relative">
+            <h1 class="text-2xl sm:text-4xl 2xl:text-7xl font-bold transition-all duration-700 opacity-0 transform translate-x-10">Skills</h1>
 
             <div class="text-center transition-all duration-700 opacity-0 transform translate-x-10 mt-8 2xl:mt-28 w-full 2xl:w-9/12 lg:flex space-y-6 lg:space-y-0">
-
                 <!-- JS Stacks -->
                 <div class="flex flex-wrap justify-center lg:w-1/2">
                     <div class="w-4/12 space-y-8 2xl:space-y-12">
-                        <img class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/angular.png" alt="AngularJS" title="AngularJS">
-                        <img class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/vue.png" alt="Vue.js" title="Vue.js">
+                        <img onmouseenter="toggleSkill('AngularJS')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/angular.png" alt="AngularJS" title="AngularJS">
+                        <img onmouseenter="toggleSkill('Vue.js')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/vue.png" alt="Vue.js" title="Vue.js">
                     </div>
                     <div class="w-4/12 flex flex-col pt-6">
-                        <img class="skillball cursor-pointer mx-auto h-36 2xl:h-48 w-36 2xl:w-48 hover:cursor-pointer transition-all duration-300" src="/assets/skills/js.png" alt="JavaScript" title="JavaScript">
-                        <img class="skillball cursor-pointer mx-auto mt-6 2xl:mt-16 h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/mongo.png" alt="MongoDB" title="MongoDB">
+                        <img onmouseenter="toggleSkill('JavaScript')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer mx-auto h-36 2xl:h-48 w-36 2xl:w-48 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/js.png" alt="JavaScript" title="JavaScript">
+                        <img onmouseenter="toggleSkill('MongoDB')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer mx-auto mt-6 2xl:mt-16 h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/mongo.png" alt="MongoDB" title="MongoDB">
                     </div>
                     <div class="w-4/12 space-y-8 2xl:space-y-12">
-                        <img class="skillball cursor-pointer 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/node.png" alt="Node.js" title="Node.js">
-                        <img class="skillball cursor-pointer 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/express.png" alt="Express" title="Express">
+                        <img onmouseenter="toggleSkill('Node.js')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/node.png" alt="Node.js" title="Node.js">
+                        <img onmouseenter="toggleSkill('Express')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/express.png" alt="Express" title="Express">
                     </div>
                 </div>
-
                 <!-- PHP Stacks -->
                 <div class="flex flex-wrap justify-center lg:w-1/2">
                     <div class="w-4/12 space-y-8 2xl:space-y-12">
-                        <img class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/slim.png" alt="Slim" title="Slim">
-                        <img class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/laravel.png" alt="Laravel" title="Laravel">
+                        <img onmouseenter="toggleSkill('Slim')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/slim.png" alt="Slim" title="Slim">
+                        <img onmouseenter="toggleSkill('Laravel')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer ml-auto 2xl:m-auto h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/laravel.png" alt="Laravel" title="Laravel">
                     </div>
                     <div class="w-4/12 flex flex-col pt-6">
-                        <img class="skillball cursor-pointer mx-auto h-36 2xl:h-48 w-36 2xl:w-48 hover:cursor-pointer transition-all duration-300" src="/assets/skills/php.png" alt="PHP" title="PHP">
-                        <img class="skillball cursor-pointer mx-auto mt-6 2xl:mt-16 h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transition-all duration-300" src="/assets/skills/mysql.png" alt="MySQL" title="MySQL">
+                        <img onmouseenter="toggleSkill('PHP')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer mx-auto h-36 2xl:h-48 w-36 2xl:w-48 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/php.png" alt="PHP" title="PHP">
+                        <img onmouseenter="toggleSkill('MySQL')" onmouseleave="flushSkillInfo()" class="skillball cursor-pointer mx-auto mt-6 2xl:mt-16 h-24 2xl:h-32 w-24 2xl:w-32 hover:cursor-pointer transform hover:scale-110 transition-all duration-300" src="/assets/skills/mysql.png" alt="MySQL" title="MySQL">
                     </div>
                     <div class="w-4/12 space-y-8 2xl:space-y-12"></div>
                 </div>
+            </div>
 
+            <div class="hidden lg:block absolute bottom-8">
+                <span id="stackinfo" class="text-xl text-center"></span>
             </div>
         </section>
 
         <!-- Projects -->
         <section id="projects" class="black flex flex-col items-center justify-center py-16 2xl:py-32">
-            <h1 class="opacity-0 transform translate-x-10 transition-all duration-700 text-2xl sm:text-4xl 2xl:text-7xl font-bold">Projetos</h1>
+            <h1 class="opacity-0 transform translate-x-10 transition-all duration-700 text-2xl sm:text-4xl 2xl:text-7xl font-bold">Projects</h1>
 
             <div class="opacity-0 transform translate-x-10 transition-all duration-700 mt-8 xl:mt-6 2xl:mt-20 flex flex-col sm:flex-row sm:flex-wrap space-y-8 sm:space-y-0 mx-8 lg:mx-32">
                 <div class="flex flex-col space-y-2 2xl:space-y-6 sm:w-3/6 sm:p-6">
@@ -165,7 +168,7 @@
 
         <!-- Contact -->
         <section id="contact" class="flex flex-col items-center justify-center py-16 2xl:py-32">
-            <h1 class="transition-all duration-300 opacity-0 transform translate-x-10 text-2xl sm:text-4xl 2xl:text-7xl font-bold">Contato</h1>
+            <h1 class="transition-all duration-300 opacity-0 transform translate-x-10 text-2xl sm:text-4xl 2xl:text-7xl font-bold">Contact</h1>
 
             <div class="transition-all duration-700 opacity-0 transform translate-x-10 mt-8 sm:mt-10 2xl:mt-20 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 2xl:space-x-10">
                 <a href="https://www.github.com/knopmickael" target="_blank">
