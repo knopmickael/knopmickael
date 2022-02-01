@@ -38,16 +38,13 @@ window.addEventListener("scroll", function() {
 
     if (isScrolledIntoView(skillsSection)) {
         let skillsSectionTitle = skillsSection.children[0];
-        let skillsSectionMainSkills = skillsSection.children[1];
-        let skillsSectionOtherSkills = skillsSection.children[3];
+        let skillsSectionSkills = skillsSection.children[1];
         setTimeout(() => {
             skillsSectionTitle.classList.remove("translate-x-10");
-            skillsSectionMainSkills.classList.remove("translate-x-10");
-            skillsSectionOtherSkills.classList.remove("translate-x-10");
+            skillsSectionSkills.classList.remove("translate-x-10");
             setTimeout(() => {
                 skillsSectionTitle.classList.remove("opacity-0");
-                skillsSectionMainSkills.classList.remove("opacity-0");
-                skillsSectionOtherSkills.classList.remove("opacity-0");
+                skillsSectionSkills.classList.remove("opacity-0");
             }, 250);
         }, 500);
     }
@@ -87,32 +84,32 @@ window.addEventListener("scroll", function() {
     }  
 });
 
-function showInfo(curSkill) {
-    var curSkillInfoBox = document.getElementById("curSkillInfoBox");
+// function showInfo(curSkill) {
+//     var curSkillInfoBox = document.getElementById("curSkillInfoBox");
 
-    switch(curSkill) {
-        case "laravel":
-            curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
-            setTimeout(() => {
-                curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Laravel</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Laravel é um framework PHP full-stack criado para o desenvolvimento de sistemas web que utilizam o padrão MVC.</p>";
-                curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
-            }, 500);
-            break;
-        case "vue":
-            curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
-            setTimeout(() => {
-                curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Vue.js</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Vue.js é um framework JavaScript focado no desenvolvimento de interfaces de usuário e aplicativos de página única.</p>";
-                curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
-            }, 500);
-            break;
-        case "tailwind":
-            curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
-            setTimeout(() => {
-                curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Tailwind CSS</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Tailwind CSS é um framework CSS voltado para a construção de páginas amigáveis aplicando conceitos de Utility First.</p>";
-                curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
-            }, 500);
-            break;
-        default:
-            break;
-    }
-}
+//     switch(curSkill) {
+//         case "laravel":
+//             curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
+//             setTimeout(() => {
+//                 curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Laravel</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Laravel é um framework PHP full-stack criado para o desenvolvimento de sistemas web que utilizam o padrão MVC.</p>";
+//                 curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
+//             }, 500);
+//             break;
+//         case "vue":
+//             curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
+//             setTimeout(() => {
+//                 curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Vue.js</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Vue.js é um framework JavaScript focado no desenvolvimento de interfaces de usuário e aplicativos de página única.</p>";
+//                 curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
+//             }, 500);
+//             break;
+//         case "tailwind":
+//             curSkillInfoBox.classList.add("-translate-y-10", "opacity-0")
+//             setTimeout(() => {
+//                 curSkillInfoBox.innerHTML = "<h2 class=\"font-bold 2xl:mt-8 2xl:text-4xl 2xl:mb-4\">Tailwind CSS</h2><p class=\"2xl:text-3xl 2xl:leading-loose 2xl:mx-72\">Tailwind CSS é um framework CSS voltado para a construção de páginas amigáveis aplicando conceitos de Utility First.</p>";
+//                 curSkillInfoBox.classList.remove("-translate-y-10", "opacity-0")
+//             }, 500);
+//             break;
+//         default:
+//             break;
+//     }
+// }
