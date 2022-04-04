@@ -6,6 +6,6 @@
 <br/>
 <img  width="550px" src="https://github-readme-stats.vercel.app/api/top-langs/?username=knopmickael&layout=compact&langs_count=7&theme=dracula"/>
 <p>Contact:</p>
-<a href="https://www.linkedin.com/in/rickson-mickael-knop123/" target="_blank">LinkedIn</a>
-<a href="mailto:knopmickael@gmail.com" target="_blank">E-mail</a>
-<a href="https://wa.me/+5551991000416" target="_blank">WhatsApp</a>
+<p><a href="https://www.linkedin.com/in/rickson-mickael-knop123/" target="_blank">LinkedIn</a></p>
+<p><a href="mailto:knopmickael@gmail.com" target="_blank">E-mail</a></p>
+<p><a href="https://wa.me/+5551991000416" target="_blank">WhatsApp</a></p>
