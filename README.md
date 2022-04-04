@@ -1,5 +1,5 @@
-<p style="font-size: 16px;">Hello there,</p>
 <br/>
+<p style="font-size: 16px;">Hello there,</p>
 <p>&#129490; I’m 24yo from Brazil</p>
 <p>:briefcase: Graduated in Information Systems, I current work with web development (but already made a little bit of everything)</p>
 <p><a href="https://me.neosapience.com.br" target="_blank">&#127760; I got a website, you can check it right here</a></p>
