@@ -11,5 +11,3 @@
 <a href="mailto:knopmickael@gmail.com" target="_blank">E-mail</a>
 <span> | </span>
 <a href="https://wa.me/+5551991000416" target="_blank">WhatsApp</a>
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=knopmickael&show_icons=true&theme=dark&include_all_commits=true&count_private=true"/>
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=knopmickael&layout=default&langs_count=5&theme=dark"/>
