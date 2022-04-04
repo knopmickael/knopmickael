@@ -7,4 +7,5 @@
 <img  width="550px" src="https://github-readme-stats.vercel.app/api/top-langs/?username=knopmickael&layout=compact&langs_count=7&theme=dracula"/>
 <br/>
 <a href="https://www.linkedin.com/in/rickson-mickael-knop123/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+<span>&nbsp;</span>
 <a href="mailto:knopmickael@gmail.com" target="_blank"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
