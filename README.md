@@ -1,8 +1,4 @@
-I'm a software developer with experience in building and sustaining web and mobile applications, as well as managing its infrastructure. In my repositories, you can find some of the projects I've worked on.
-
-I have strong background in front-end using technologies like React and Angular, back-end using Node and PHP and mobile development using Expo and Ionic.
-
-I also have great knowledge in container management with Docker and Kubernetes, CI/CD pipelines and cloud programming.
+Atuei em projetos construídos com diferentes linguagens, como PHP, Python e JavaScript. Também me graduei em Sistemas de Informação em 2020, o que me promoveu o título de bacharel na área. Desde que comecei, trabalhei com diferentes tipos de sistemas, como sustentação e evolução de APIs de delivery, aplicações de prospecção bancária, implantação de SAAS sob demanda, criação de chat em tempo real usando websockets, CMS institucionais e de loja virtual, entre outros modelos de software.
 
 <br/>
 <a href="https://www.linkedin.com/in/mickael-knop" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
