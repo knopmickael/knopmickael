@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#111310" />
+    <meta name="description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:card" content="summary" />
+    <title></title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <noscript><style>.boot-state { display: none; }</style></noscript>
+    <script>
+      try {
+        const theme = localStorage.getItem('portfolio-theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <script id="boot-content" type="application/json">{}</script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="boot-state" role="status">
+        <span class="boot-mark" aria-hidden="true"></span>
+        <span id="boot-label"></span>
+      </div>
+    </div>
+    <noscript id="noscript-message"></noscript>
+  </body>
+</html>

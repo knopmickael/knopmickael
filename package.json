@@ -1,0 +1,14 @@
+{
+  "name": "mickael-knop-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portfólio estático, acessível e orientado por JSON.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs --dist",
+    "check": "node --check app.js && node --check lib/content.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/site.mjs && node --check tests/browser.mjs && node --test tests/content.test.mjs"
+  }
+}

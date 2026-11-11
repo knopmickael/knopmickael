@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "title": "Mickael Knop — Engenheiro de Software",
+    "description": "Engenharia de software de ponta a ponta. Conheça o trabalho de Mickael Knop com backend, aplicações web, integrações, arquitetura e cloud.",
+    "language": "pt-BR",
+    "themeColor": "#111310",
+    "defaultTheme": "dark"
+  },
+  "ui": {
+    "loading": "Preparando os detalhes…",
+    "loadErrorTitle": "Não foi possível carregar o portfólio.",
+    "loadErrorDescription": "Verifique sua conexão e tente novamente.",
+    "retry": "Tentar novamente",
+    "noscript": "Ative o JavaScript para explorar este portfólio. Você também pode encontrar Mickael Knop em https://github.com/knopmickael e https://linkedin.com/in/knopmickael.",
+    "skipToContent": "Pular para o conteúdo",
+    "navigationLabel": "Navegação principal",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "lightTheme": "Ativar tema claro",
+    "darkTheme": "Ativar tema escuro",
+    "externalLink": "abre em uma nova aba",
+    "closeDialog": "Fechar detalhes do projeto",
+    "projectDetails": "Explorar projeto",
+    "repository": "Ver código no GitHub",
+    "filterLabel": "Filtrar projetos por área",
+    "projectCount": "{count} projetos nesta seleção",
+    "projectCountSingular": "{count} projeto nesta seleção",
+    "emptyTitle": "Novas ideias estão a caminho.",
+    "emptyDescription": "Ainda não há projetos nesta categoria. Explore as outras áreas.",
+    "copySuccess": "Link do LinkedIn copiado!",
+    "copyError": "Não foi possível copiar. Abra o contato pelo botão do LinkedIn.",
+    "backToTop": "Voltar ao início",
+    "illustrationLabel": "Ilustração conceitual",
+    "resumeFilename": "Mickael-Knop-Curriculo.md",
+    "resumeLabel": "Baixar currículo",
+    "resumeProjectHeading": "Projetos públicos",
+    "resumeSkillsHeading": "Competências",
+    "resumeExperienceHeading": "Experiência profissional",
+    "resumeEducationHeading": "Formação"
+  },
+  "profile": {
+    "name": "Mickael Knop",
+    "firstName": "Mickael",
+    "brand": "mickael knop",
+    "initials": "mk",
+    "role": "Engenheiro de Software",
+    "location": "Rio Grande do Sul, Brasil",
+    "locationShort": "BRASIL · UTC−3",
+    "workMode": "Trabalho remoto. Conexões sem fronteiras.",
+    "summary": "Engenheiro de software generalista, com mais de seis anos de experiência em aplicações web e corporativas. Trabalho com backend, frontend, APIs e integrações, com foco crescente em arquitetura, cloud e sistemas distribuídos.",
+    "socials": [
+      { "id": "github", "label": "GitHub", "url": "https://github.com/knopmickael", "handle": "@knopmickael" },
+      { "id": "linkedin", "label": "LinkedIn", "url": "https://linkedin.com/in/knopmickael", "handle": "/in/knopmickael" }
+    ],
+    "education": { "degree": "Bacharelado em Sistemas de Informação", "institution": "ULBRA — Universidade Luterana do Brasil", "period": "2015 — 2020" }
+  },
+  "navigation": [
+    { "label": "Sobre", "href": "#sobre" },
+    { "label": "Projetos", "href": "#projetos" },
+    { "label": "Experiência", "href": "#experiencia" }
+  ],
+  "header": { "contactLabel": "Vamos conversar", "contactHref": "#contato", "homeLabel": "Mickael Knop — início" },
+  "hero": {
+    "eyebrow": "ENGENHARIA DE SOFTWARE, DE PONTA A PONTA",
+    "title": ["Boas ideias.", "Código sólido.", "Impacto real."],
+    "accentLine": 2,
+    "introduction": "Olá, sou Mickael.",
+    "description": "Transformo desafios em software bem construído. Do backend à interface, conecto as peças para fazer a solução acontecer.",
+    "primaryAction": { "label": "Explorar projetos", "href": "#projetos" },
+    "secondaryAction": { "label": "Meu GitHub", "socialId": "github" },
+    "footer": "BACKEND · FULL-STACK · CLOUD",
+    "index": "PORTFÓLIO / 2026"
+  },
+  "system": {
+    "eyebrow": "UM OLHAR PARA O SISTEMA INTEIRO",
+    "index": "FIG. 01",
+    "label": "Explore as camadas de uma aplicação",
+    "footer": "As peças mudam. O cuidado permanece.",
+    "hint": "SELECIONE UMA CAMADA",
+    "defaultLayer": "domain",
+    "layers": [
+      { "id": "interface", "number": "01", "eyebrow": "EXPERIÊNCIA", "title": "Interface", "stack": "Vue · React · TypeScript", "icon": "layout", "description": "Interfaces claras, acessíveis e conectadas à necessidade de quem usa." },
+      { "id": "domain", "number": "02", "eyebrow": "LÓGICA", "title": "API & domínio", "stack": "Node.js · Java · PHP", "icon": "code", "description": "Regras de negócio bem definidas, APIs consistentes e integrações que fazem sentido." },
+      { "id": "foundation", "number": "03", "eyebrow": "FUNDAÇÃO", "title": "Dados & cloud", "stack": "SQL · Docker · AWS", "icon": "database", "description": "Persistência, contêineres e infraestrutura pensados como parte da solução." }
+    ]
+  },
+  "technologyStrip": {
+    "label": "FERRAMENTAS MUDAM. FUNDAMENTOS FICAM.",
+    "items": ["TypeScript", "Node.js", "Java", "Vue.js", "AWS", "Docker"]
+  },
+  "about": {
+    "id": "sobre",
+    "eyebrow": "01 / SOBRE MIM",
+    "title": ["Mais do que stack.", "Visão de sistema."],
+    "paragraphs": [
+      "Gosto de entender o que existe por trás das abstrações. Minha trajetória passa por aplicações web, integrações corporativas e evolução de sistemas — sempre conectando o problema às decisões de engenharia.",
+      "Atuo entre backend e frontend, colaboro com equipes e sigo aprofundando minha prática em arquitetura, cloud e sistemas distribuídos. Curiosidade para investigar. Critério para simplificar."
+    ],
+    "facts": [
+      { "value": "6+", "label": "anos construindo software" },
+      { "value": "Ponta a ponta", "label": "do domínio à experiência" },
+      { "value": "Sempre", "label": "aprendendo, testando, evoluindo" }
+    ]
+  },
+  "projectsSection": {
+    "id": "projetos",
+    "eyebrow": "02 / PROJETOS SELECIONADOS",
+    "title": ["Ideias em prática."],
+    "description": "Código aberto, experimentos e soluções. Um recorte do que gosto de construir e investigar.",
+    "githubLabel": "Mais no GitHub",
+    "categories": [
+      { "id": "all", "label": "Todos" },
+      { "id": "fullstack", "label": "Full-stack" },
+      { "id": "backend", "label": "Backend" },
+      { "id": "systems", "label": "Sistemas & integrações" }
+    ]
+  },
+  "projects": [
+    {
+      "id": "omdb",
+      "number": "01",
+      "title": "OMDb Movies Showcase",
+      "category": "fullstack",
+      "type": "APLICAÇÃO FULL-STACK",
+      "description": "Uma API NestJS e um cliente React conectados para explorar informações de filmes do universo OMDb.",
+      "tags": ["TypeScript", "NestJS", "React", "REST API"],
+      "url": "https://github.com/knopmickael/omdb-movies-showcase",
+      "visual": { "type": "cinema", "label": "Composição gráfica conceitual de um catálogo de cinema OMDb, com cartões de filmes abstratos.", "eyebrow": "A WORLD OF STORIES", "title": "OMDb", "mark": "↗", "subtitle": "Discover your next story.", "items": ["01", "02", "03"], "footer": "MOVIES / DISCOVER / EXPLORE" },
+      "details": [
+        { "title": "O projeto", "text": "Uma aplicação pública composta por uma API web em NestJS, que consulta dados da OMDb, e um cliente React, que apresenta as informações em uma interface web." },
+        { "title": "O que conecta as peças", "text": "Separação entre frontend, backend e serviço externo de filmes. O projeto exercita consumo de APIs HTTP e a construção de uma experiência full-stack com TypeScript." },
+        { "title": "Explore o código", "text": "O repositório reúne a aplicação e sua descrição. Consulte as instruções e a implementação para conhecer o estado atual do projeto." }
+      ]
+    },
+    {
+      "id": "webstore",
+      "number": "02",
+      "title": "Webstore · Sistema de pedidos",
+      "category": "backend",
+      "type": "BACKEND & PROCESSAMENTO ASSÍNCRONO",
+      "description": "Um laboratório de pedidos com Laravel: eventos, filas, cache e processamento assíncrono com Redis.",
+      "tags": ["PHP", "Laravel", "PostgreSQL", "Redis"],
+      "url": "https://github.com/knopmickael/webstore-laravel",
+      "visual": { "type": "pipeline", "label": "Diagrama conceitual do fluxo de pedidos: uma requisição gera um evento, uma fila e um processamento em worker.", "eyebrow": "ORDER PROCESSING", "title": "Um pedido.\nUm fluxo bem definido.", "subtitle": "EVENT-DRIVEN BY DESIGN", "items": ["POST /orders", "OrderPlaced", "Redis queue", "Worker"], "footer": "REQUEST → EVENT → QUEUE → JOB" },
+      "details": [
+        { "title": "O projeto", "text": "Uma API REST de sistema de pedidos para explorar recursos do Laravel 11, com PHP 8.3+, PostgreSQL 16, Redis 7 e Docker para as dependências locais." },
+        { "title": "Decisões na prática", "text": "O evento OrderPlaced aciona um listener que despacha ProcessOrderJob para uma fila Redis. A listagem de produtos usa cache, com invalidação por observer. API Resources e validação organizam os contratos HTTP." },
+        { "title": "Um laboratório de backend", "text": "O repositório documenta os endpoints, a execução do worker e como observar a fila e o cache. É um projeto de estudo prático, com o fluxo disponível para inspeção e execução local." }
+      ]
+    },
+    {
+      "id": "node-cluster",
+      "number": "03",
+      "title": "Node Cluster & Load Balancer",
+      "category": "systems",
+      "type": "LABORATÓRIO DE SISTEMAS",
+      "description": "Investigando concorrência, processos e distribuição de carga no Node.js, com testes usando autocannon.",
+      "tags": ["Node.js", "Cluster", "Load balancing", "autocannon"],
+      "url": "https://github.com/knopmickael/node-cluster-with-load-balancer",
+      "visual": { "type": "cluster", "label": "Diagrama conceitual de um processo principal distribuindo requisições entre três workers Node.js.", "eyebrow": "CONCURRENCY / PARALLELISM", "title": "Distribuir.\nProcessar. Entender.", "subtitle": "NODE.JS UNDER THE HOOD", "items": ["Primary", "Worker 01", "Worker 02", "Worker 03"], "footer": "ONE PROCESS IS JUST THE BEGINNING" },
+      "details": [
+        { "title": "A investigação", "text": "Um experimento com as bibliotecas nativas cluster, os e process do Node.js para comparar um servidor simples, um servidor com cluster e uma configuração com balanceamento de carga." },
+        { "title": "Como observar", "text": "O projeto inclui comandos para executar cada configuração e testes de carga com autocannon. Os relatórios de desenvolvimento estão no diretório de benchmarks do repositório." },
+        { "title": "Fundamentos antes dos números", "text": "O foco é compreender processos e distribuição de trabalho. Resultados de benchmark dependem do hardware e das condições de execução; aqui, o destaque é o experimento reproduzível." }
+      ]
+    },
+    {
+      "id": "office-demo",
+      "number": "04",
+      "title": "Office API · Bug reproduction",
+      "category": "systems",
+      "type": "INVESTIGAÇÃO & INTEGRAÇÃO",
+      "description": "Um exemplo mínimo para investigar o comportamento de importação de arquivos na API do Microsoft Office.",
+      "tags": ["JavaScript", "Office.js", "Debugging", "Integrações"],
+      "url": "https://github.com/knopmickael/office-importFileAsBase64-bug-demo",
+      "visual": { "type": "document", "label": "Composição conceitual de um documento e um trecho de chamada à API do Office, representando uma reprodução mínima de bug.", "eyebrow": "ISOLATE THE PROBLEM", "title": "Menos ruído.\nMais evidência.", "subtitle": "A MINIMAL REPRODUCTION", "items": ["document", "importFileAsBase64()", "inspect → reproduce"], "footer": "OBSERVE / ISOLATE / REPRODUCE" },
+      "details": [
+        { "title": "O contexto", "text": "Repositório público de demonstração de um comportamento na importação de arquivos pela API do Microsoft Office. Um recorte técnico relacionado ao trabalho com integrações documentais." },
+        { "title": "A abordagem", "text": "Isolar um problema em um exemplo menor facilita a inspeção do comportamento de uma biblioteca e a comunicação técnica sobre o que acontece." },
+        { "title": "O escopo", "text": "O material é uma reprodução de comportamento, não uma alegação de correção oficial da API. O repositório disponibiliza os arquivos e orienta servi-los com um servidor web local." }
+      ]
+    }
+  ],
+  "expertise": {
+    "id": "repertorio",
+    "eyebrow": "03 / REPERTÓRIO TÉCNICO",
+    "title": ["A ferramenta certa.", "Para o problema certo."],
+    "description": "Experiência prática em diferentes camadas, com fundamentos que atravessam tecnologias.",
+    "groups": [
+      { "number": "01", "icon": "terminal", "title": "Backend & integrações", "description": "APIs, regras de negócio e comunicação entre sistemas.", "items": ["Node.js / NestJS", "Java / Spring Boot", "PHP / Laravel", "Python / Flask", "REST / WebSockets"] },
+      { "number": "02", "icon": "layout", "title": "Interfaces & experiência", "description": "Aplicações web que conectam pessoas e funcionalidades.", "items": ["TypeScript / JavaScript", "Vue.js / Quasar", "React", "Angular", "HTML / CSS"] },
+      { "number": "03", "icon": "layers", "title": "Arquitetura & cloud", "description": "Evolução de aplicações, contêineres e integração com a nuvem.", "items": ["Clean Architecture / DDD", "Docker / CI/CD", "AWS / Azure", "PostgreSQL / MongoDB", "Microsoft 365 / Entra ID"] }
+    ],
+    "learning": { "label": "EM APROFUNDAMENTO", "text": "Sistemas distribuídos, fundamentos de computação, observabilidade e workflows de engenharia com IA.", "icon": "spark" }
+  },
+  "experience": {
+    "id": "experiencia",
+    "eyebrow": "04 / TRAJETÓRIA",
+    "title": ["Software se constrói", "com experiência."],
+    "description": "Diferentes contextos, a mesma vontade de entender e resolver.",
+    "currentLabel": "ATUALMENTE",
+    "entries": [
+      { "id": "datainfo", "company": "Datainfo", "role": "Engenheiro de Software", "period": "2023 — presente", "current": true, "summary": "Aplicações corporativas, integrações e evolução arquitetural.", "paragraphs": ["Desenvolvimento e manutenção de aplicações web e serviços, com atuação em frontend, backend e integrações com o ecossistema Microsoft.", "Trabalho com serviços Java/Spring Boot, autenticação, contêineres Docker e análise de arquitetura. Participo da transição para uma arquitetura AWS, contribuindo com a evolução das aplicações e o trabalho próximo aos workloads."], "tags": ["Java / Spring Boot", "Vue.js", "Microsoft 365", "Docker", "AWS"] },
+      { "id": "brq", "company": "BRQ", "role": "Engenharia de Software", "period": "Experiência anterior", "current": false, "summary": "Backend, integrações e colaboração com equipes internacionais.", "paragraphs": ["Atuação em aplicações e integrações corporativas, incluindo um módulo de cartões em uma jornada de prospecção bancária.", "Experiência de liderança técnica em projeto, com organização de tarefas e participação em reuniões em inglês com outras equipes. Trabalho com PHP/CodeIgniter, Python/Flask e SQL Server."], "tags": ["PHP", "Python", "SQL Server", "Colaboração internacional"] },
+      { "id": "triomidia", "company": "TrioMidia", "role": "Desenvolvedor Full-stack", "period": "Experiência anterior", "current": false, "summary": "Do levantamento de requisitos à publicação de aplicações web.", "paragraphs": ["Desenvolvimento de e-commerces e aplicações com CMS, conectando requisitos, modelagem, interface, backend e persistência.", "Trabalho com Laravel, Vue.js e MySQL, protótipos móveis com Expo/React Native e publicação em ambientes VPS. Contato direto com stakeholders e manutenção de sites institucionais."], "tags": ["Laravel", "Vue.js", "MySQL", "React Native", "VPS"] }
+    ]
+  },
+  "contact": {
+    "id": "contato",
+    "eyebrow": "A PRÓXIMA CONEXÃO COMEÇA AQUI",
+    "title": ["Tem uma boa ideia?", "Vamos construir."],
+    "description": "Uma oportunidade, um desafio técnico ou uma troca de ideias. Estou por aqui.",
+    "primaryLabel": "Me encontre no LinkedIn",
+    "primarySocialId": "linkedin",
+    "copyLabel": "Copiar link de contato",
+    "copyValue": "https://linkedin.com/in/knopmickael",
+    "locationLabel": "DE ONDE EU CONSTRUO",
+    "signature": "Vamos conectar os próximos pontos."
+  },
+  "footer": { "copyright": "© 2026 Mickael Knop", "note": "Pensado nos detalhes. Construído para a web.", "index": "PORTFÓLIO V.01" }
+}
