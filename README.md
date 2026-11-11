@@ -1,140 +1,61 @@
-# Mickael Knop · Portfólio
+# Olá, sou Mickael Knop 👋
 
-Um portfólio frontend-only com direção visual editorial, temas claro/escuro e conteúdo inteiramente editável em [`portfolio.json`](./portfolio.json). HTML, CSS e JavaScript nativos; sem dependências de runtime ou instalação de pacotes.
+**Engenheiro de Software · Backend · Full-stack · Cloud**
 
-## Rodar localmente
+Transformo desafios em software bem construído. Do backend à interface, gosto de entender o problema, conectar as peças e construir soluções que façam sentido para quem usa e para quem mantém.
 
-Requer **Node.js 22 ou superior**.
+[LinkedIn](https://linkedin.com/in/knopmickael) · [Repositórios](https://github.com/knopmickael?tab=repositories)
 
-```sh
-npm run dev
-```
+## Sobre mim
 
-Abra **http://127.0.0.1:4173**. Atualize a página depois de editar os arquivos; o servidor sempre entrega a versão atual. Não é necessário executar `npm install`.
+- Mais de seis anos de experiência em aplicações web e corporativas, APIs e integrações.
+- Atualmente na **Datainfo**, trabalhando com aplicações corporativas, integrações com o ecossistema Microsoft e evolução arquitetural para AWS.
+- Experiência de ponta a ponta: requisitos, modelagem, backend, interface, persistência e publicação.
+- Bacharel em **Sistemas de Informação pela ULBRA**.
+- No **Rio Grande do Sul, Brasil**, com atuação remota e experiência de colaboração com equipes internacionais.
 
-```sh
-npm run check                 # Sintaxe, validação do JSON e testes de comportamento
-npm run build                 # Gera somente os arquivos públicos em dist/
-npm run preview               # Serve o build em http://127.0.0.1:4173
-```
+Gosto de investigar o que existe por trás das abstrações e escolher ferramentas a partir do problema. Tenho aprofundado meus estudos em **sistemas distribuídos, fundamentos de computação, observabilidade e workflows de engenharia com IA**.
 
-Porta, interface e subdiretório podem ser configurados:
+## Repertório técnico
 
-```sh
-npm run dev -- --port 3000
-npm run preview -- --port 4174 --base /portfolio/
-```
-
-O servidor também aceita `PORT` e `HOST`. Abrir `index.html` diretamente com `file://` não funciona, pois o navegador precisa buscar o JSON por HTTP.
-
-## Personalizar o conteúdo
-
-**O arquivo `portfolio.json`, no mesmo diretório de `index.html`, é a fonte de conteúdo.** Inclui nomes, metadados, navegação, títulos, descrições, links, textos acessíveis, mensagens de estado, ilustrações, tecnologias, experiências, contato e rodapé.
-
-| Chave | O que editar |
+| Área | Tecnologias e práticas |
 | --- | --- |
-| `meta` | Título, descrição, idioma, cor do navegador e tema padrão (`dark` ou `light`) |
-| `ui` | Textos de botões, acessibilidade, carregamento, erro e feedback |
-| `profile` | Nome, marca, apresentação, localização, links e formação |
-| `navigation`, `header` | Navegação e chamada de contato |
-| `hero`, `system` | Apresentação e camadas do diagrama interativo |
-| `technologyStrip`, `about` | Tecnologias, biografia e destaques |
-| `projectsSection`, `projects` | Categorias, projetos, links e detalhes |
-| `expertise` | Grupos de competências e estudos atuais |
-| `experience` | Histórico profissional e tecnologias utilizadas |
-| `contact`, `footer` | Chamada de contato, link para copiar e rodapé |
+| Backend e integrações | Node.js, NestJS, Java, Spring Boot, PHP, Laravel, Python, Flask, REST e WebSockets |
+| Frontend | TypeScript, JavaScript, Vue.js, Quasar, React, Angular, HTML e CSS |
+| Dados | PostgreSQL, MySQL, SQL Server, MongoDB e Redis |
+| Arquitetura e cloud | Clean Architecture, DDD, Docker, CI/CD, AWS e Azure |
+| Ecossistema Microsoft | Microsoft 365, Office.js e Entra ID |
 
-### Adicionar um projeto
+## Projetos em destaque
 
-Duplique um objeto em `projects` e altere seus dados. Use um `id` único e uma `category` que exista em `projectsSection.categories`. O filtro `all` reúne os projetos automaticamente. Os contadores acompanham o JSON.
+### [OMDb Movies Showcase](https://github.com/knopmickael/omdb-movies-showcase)
 
-```json
-{
-  "id": "meu-projeto",
-  "number": "05",
-  "title": "Meu projeto",
-  "category": "backend",
-  "type": "API & INTEGRAÇÕES",
-  "description": "Uma descrição objetiva da solução.",
-  "tags": ["Java", "Spring Boot"],
-  "url": "https://github.com/seu-usuario/seu-projeto",
-  "visual": {
-    "type": "pipeline",
-    "label": "Diagrama conceitual de uma API conectada a um fluxo assíncrono.",
-    "eyebrow": "API / WORKFLOW",
-    "title": "Uma solução.\nUm fluxo claro.",
-    "subtitle": "PROCESSAMENTO ASSÍNCRONO",
-    "items": ["API", "Evento", "Fila", "Worker"],
-    "footer": "REQUEST → EVENT → QUEUE → JOB"
-  },
-  "details": [
-    { "title": "O desafio", "text": "Qual problema o projeto resolve." },
-    { "title": "A implementação", "text": "Sua contribuição e as decisões relevantes." }
-  ]
-}
-```
+Aplicação full-stack para explorar informações de filmes, conectando uma API NestJS a um cliente React e ao serviço externo OMDb.
 
-As ilustrações são composições originais em HTML/CSS, identificadas como **conceituais** na descrição acessível. Os modelos disponíveis são `cinema` (três itens), `pipeline` (quatro), `cluster` (processo principal e três workers) e `document` (três). Não são screenshots nem demonstrações conectadas a APIs.
+**TypeScript · NestJS · React · REST API**
 
-Os identificadores de seção (`sobre`, `projetos`, `repertorio`, `experiencia`, `contato`) e das camadas (`interface`, `domain`, `foundation`) são estruturais; preserve-os. O validador detecta erros de navegação, IDs de projetos duplicados, categorias desconhecidas e links inválidos. Execute `npm run check` após editar.
+### [Webstore · Sistema de pedidos](https://github.com/knopmickael/webstore-laravel)
 
-### Currículo e contato
+Laboratório de backend com eventos, filas e processamento assíncrono de pedidos. Explora cache com invalidação, validação e organização dos contratos HTTP.
 
-- **Baixar currículo** gera um arquivo Markdown no próprio navegador, usando os dados atuais do JSON. Não há currículo duplicado para manter.
-- O contato abre o LinkedIn. O botão de copiar usa a Clipboard API e apresenta feedback de sucesso ou falha.
-- Para alterar o destino, edite `profile.socials`, `contact.primarySocialId` e `contact.copyValue`.
-- O tema escolhido é guardado localmente; nenhuma informação é enviada para um servidor.
+**PHP · Laravel · PostgreSQL · Redis · Docker**
 
-## Publicar no GitHub Pages
+### [Node Cluster & Load Balancer](https://github.com/knopmickael/node-cluster-with-load-balancer)
 
-O workflow em [`.github/workflows/pages.yml`](./.github/workflows/pages.yml) valida, gera e publica o site a cada push para `main`.
+Experimento para compreender concorrência, processos e distribuição de carga no Node.js, comparando configurações de servidor com testes de carga reproduzíveis.
 
-1. Crie um repositório no GitHub e envie este projeto para a branch `main`.
-2. No repositório, abra **Settings → Pages → Build and deployment**.
-3. Em **Source**, selecione **GitHub Actions**.
-4. Faça um push para `main`, ou execute manualmente **Publish portfolio to GitHub Pages** na aba **Actions**.
-5. A URL publicada aparece no job `deploy` e em **Settings → Pages**.
+**Node.js · Cluster · Load balancing · autocannon**
 
-Se sua branch principal tiver outro nome, ajuste `on.push.branches` no workflow.
+### [Office API · Reprodução de bug](https://github.com/knopmickael/office-importFileAsBase64-bug-demo)
 
-Todos os caminhos de assets e do JSON são relativos. O mesmo build funciona em `https://usuario.github.io/` e em `https://usuario.github.io/nome-do-repositorio/`, sem configuração de base path. A navegação usa âncoras nativas e não depende de reescrita de rotas.
+Exemplo mínimo para investigar o comportamento de importação de arquivos na API do Microsoft Office. Uma prática de isolar problemas e comunicar evidências técnicas.
 
-O artefato `dist/` usa uma lista explícita de arquivos públicos. A pasta `kb/`, os testes, os scripts e a documentação não são publicados no Pages. `kb/` também está no `.gitignore`, pois contém material de referência interno.
+**JavaScript · Office.js · Debugging · Integrações**
 
-## Decisões de conteúdo
+## Vamos conversar?
 
-O perfil utiliza os arquivos profissionais fornecidos em `kb/`. Os quatro repositórios destacados tiveram sua descrição conferida nos READMEs públicos. Não foram adicionadas métricas não comprovadas, certificações ou dados de clientes.
+Gosto de trocar ideias sobre engenharia de software, arquitetura e desafios de integração. Para oportunidades ou uma conversa técnica, [me encontre no LinkedIn](https://linkedin.com/in/knopmickael).
 
-O período atual da Datainfo é consistente nas fontes. As experiências anteriores são apresentadas sem datas específicas, pois a base fornecida registra divergências cronológicas. Edite os campos `period` após confirmar as datas. O e-mail marcado como interno não foi publicado; o contato utiliza os perfis profissionais públicos.
+---
 
-## Acessibilidade e funcionamento
-
-- HTML semântico, link para pular ao conteúdo e hierarquia de títulos.
-- Links para navegação; botões para ações e filtros com estado `aria-pressed`.
-- Menu mobile com estado expandido, fechamento por Escape e gerenciamento de foco ao sair.
-- Detalhes de projetos em `<dialog>` nativo, com contenção de foco, Escape e retorno ao botão de origem.
-- Histórico com `<details>` e `<summary>` acessíveis por teclado.
-- Respeito a `prefers-reduced-motion`, foco visível e adaptação a telas estreitas.
-- Estados de carregamento, erro do JSON com nova tentativa, seleção vazia e feedback de cópia.
-- Metadados e mensagem para JavaScript desativado incorporados ao HTML pelo build a partir do JSON.
-
-O roteiro [`tests/browser.mjs`](./tests/browser.mjs) contém regressões de menu mobile (inclusive clique no SVG), foco, diálogo, filtros, conteúdo longo, reflow de 320 a 1440 px, estado vazio, carregamento, falha e nova tentativa. Com o servidor rodando e uma aba aberta no site, execute o arquivo pelo parâmetro `filename` de `playwright_browser_run_code_unsafe` no Playwright MCP. A instância `page` é fornecida pelo MCP; nenhuma dependência é adicionada ao site. `npm run check` executa os testes Node e verifica a sintaxe desse roteiro; os testes de navegador são executados separadamente pelo MCP.
-
-O site precisa de JavaScript para renderizar o portfólio. Sem JavaScript, o HTML gerado oferece os contatos públicos como alternativa. As fontes Manrope e IBM Plex Mono são carregadas do Google Fonts com `display=swap`; se o serviço estiver indisponível, as fontes de sistema assumem o layout. Não há analytics, backend, formulário com envio ou autenticação.
-
-## Estrutura
-
-```text
-portfolio.json                   # Todo o conteúdo editável
-index.html                       # Estrutura e entrada da aplicação
-app.js                           # Renderização e interações
-styles.css                       # Tokens, componentes, temas e responsividade
-lib/content.js                   # Validação, filtros e geração do currículo
-assets/favicon.svg               # Marca do navegador
-scripts/site.mjs                 # Compilação de metadados e lista pública
-scripts/serve.mjs                # Servidor local, inclusive em subdiretório
-scripts/build.mjs                # Build estático sem dependências
-tests/content.test.mjs           # Regressões de conteúdo e comportamento
-tests/browser.mjs                # Regressões executáveis pelo Playwright MCP
-.github/workflows/pages.yml      # Publicação no GitHub Pages
-```
+Este repositório também contém meu site de portfólio. As instruções para executar, personalizar e publicar o projeto estão em [portfolio-readme.md](./portfolio-readme.md).
