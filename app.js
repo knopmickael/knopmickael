@@ -92,6 +92,23 @@ function createArtwork(visual, ui, miniature = false) {
   return artwork;
 }
 
+function projectArtwork(project, ui, miniature = false) {
+  const visual = project.visual;
+  if (visual.type === 'image') {
+    const fallback = () => projectArtwork({ ...project, visual: { type: 'repository' } }, ui, miniature);
+    const frame = el('div', { class: `project-art art-image${miniature ? ' art-miniature' : ''}` });
+    frame.append(el('img', { src: visual.src, alt: visual.label, width: '1200', height: '750', loading: miniature ? 'eager' : 'lazy', decoding: 'async', onerror: () => frame.replaceWith(fallback()) }));
+    return frame;
+  }
+  if (['pending', 'repository'].includes(visual.type)) {
+    return el('div', { class: `project-art art-repository${miniature ? ' art-miniature' : ''}`, 'aria-hidden': 'true' },
+      el('div', { class: 'repository-cover' }, el('div', { class: 'repository-cover-top' }, icon('terminal'), el('span', {}, project.type)),
+        el('span', { class: 'repository-cover-title' }, project.title),
+        el('div', { class: 'repository-cover-bottom' }, el('span', {}, '</>'), el('span', {}, project.tags.slice(0, 3).join(' / ')))));
+  }
+  return createArtwork(visual, ui, miniature);
+}
+
 function createSystem(data) {
   const caption = el('p', { class: 'system-caption', 'aria-live': 'polite' }, data.layers.find(layer => layer.id === data.defaultLayer).description);
   const buttons = [];
@@ -155,9 +172,12 @@ function render(data) {
       el('h2', { id: 'project-dialog-title' }, project.title),
       el('p', { class: 'dialog-description' }, project.description),
       el('div', { class: 'tags' }, project.tags.map(tag => el('span', {}, tag))),
-      createArtwork(project.visual, ui, true),
+      projectArtwork(project, ui, true),
       el('div', { class: 'dialog-details' }, project.details.map(detail => el('section', {}, el('h3', {}, detail.title), el('p', {}, detail.text)))),
-      externalLink(project.url, ui.repository, ui, 'button button-primary dialog-action', icon('github'), icon('arrowUpRight'))
+      el('div', { class: 'project-links' },
+        project.demoUrl ? externalLink(project.demoUrl, ui.visitProject, ui, 'button button-primary dialog-action', icon('globe'), icon('arrowUpRight')) : null,
+        project.url ? externalLink(project.url, ui.repository, ui, 'text-link dialog-action', icon('github'), icon('arrowUpRight')) : null,
+        project.repositoryVisibility === 'private' ? el('span', { class: 'private-code' }, icon('code'), ui.privateRepository) : null)
     ));
     dialog.showModal();
     document.documentElement.classList.add('modal-open');
@@ -222,26 +242,53 @@ function render(data) {
     el('dl', { class: 'about-facts' }, data.about.facts.map(fact => el('div', {}, el('dt', {}, fact.value), el('dd', {}, fact.label))))
   );
 
-  const projectGrid = el('div', { class: 'project-grid', id: 'project-grid' });
+  const projectGrid = el('div', { class: 'project-grid', id: 'project-grid', tabindex: '0', role: 'region', 'aria-roledescription': 'carrossel', 'aria-label': ui.carouselLabel });
+  const carouselPosition = el('p', { class: 'carousel-position', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
+  const scrollBehavior = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+  const step = () => (projectGrid.querySelector('.project-card')?.getBoundingClientRect().width || 0) + parseFloat(getComputedStyle(projectGrid).gap || '0');
+  const previousProject = el('button', { type: 'button', class: 'icon-button carousel-previous', 'aria-label': ui.previousProject, 'aria-controls': 'project-grid', onclick: () => projectGrid.scrollBy({ left: -step(), behavior: scrollBehavior() }) }, icon('arrowRight'));
+  const nextProject = el('button', { type: 'button', class: 'icon-button', 'aria-label': ui.nextProject, 'aria-controls': 'project-grid', onclick: () => projectGrid.scrollBy({ left: step(), behavior: scrollBehavior() }) }, icon('arrowRight'));
+  function syncCarousel() {
+    const cards = [...projectGrid.querySelectorAll('.project-card')];
+    const viewport = projectGrid.getBoundingClientRect();
+    const visible = cards.map((card, index) => ({ box: card.getBoundingClientRect(), index })).filter(({ box }) => box.left < viewport.right - 10 && box.right > viewport.left + 10);
+    previousProject.disabled = projectGrid.scrollLeft < 2 || !cards.length;
+    nextProject.disabled = projectGrid.scrollLeft >= projectGrid.scrollWidth - projectGrid.clientWidth - 2 || !cards.length;
+    carouselPosition.textContent = cards.length && visible.length ? ui.carouselPosition.replace('{start}', String(visible[0].index + 1).padStart(2, '0')).replace('{end}', String(visible.at(-1).index + 1).padStart(2, '0')).replace('{count}', String(cards.length).padStart(2, '0')) : ui.carouselEmpty;
+  }
+  let scrollFrame;
+  projectGrid.addEventListener('scroll', () => { cancelAnimationFrame(scrollFrame); scrollFrame = requestAnimationFrame(syncCarousel); }, { passive: true });
+  new ResizeObserver(syncCarousel).observe(projectGrid);
+  projectGrid.addEventListener('keydown', event => {
+    if (event.target !== projectGrid || !['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    if (event.key === 'Home' || event.key === 'End') projectGrid.scrollTo({ left: event.key === 'Home' ? 0 : projectGrid.scrollWidth, behavior: scrollBehavior() });
+    else projectGrid.scrollBy({ left: step() * (event.key === 'ArrowRight' ? 1 : -1), behavior: scrollBehavior() });
+  });
   const countLabel = el('p', { class: 'sr-only', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
   const filterButtons = [];
   function updateProjects(category) {
     const projects = filterProjects(data.projects, category);
     filterButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.category === category)));
-    projectGrid.replaceChildren(...projects.map(project => {
+    projectGrid.replaceChildren(...projects.map((project, index) => {
       const button = el('button', { class: 'project-open', type: 'button', 'aria-label': `${ui.projectDetails}: ${project.title}`, onclick: () => showProject(project, button) }, ui.projectDetails, icon('arrowUpRight'));
-      return el('article', { class: 'project-card' },
-        createArtwork(project.visual, ui),
+      return el('article', { class: 'project-card', 'aria-label': `${index + 1} / ${projects.length}: ${project.title}` },
+        projectArtwork(project, ui),
         el('div', { class: 'project-info' },
           el('div', { class: 'project-type' }, el('span', {}, project.type), el('span', {}, `/${project.number}`)),
           el('h3', {}, project.title), el('p', {}, project.description),
           el('div', { class: 'tags' }, project.tags.map(tag => el('span', {}, tag))),
-          el('div', { class: 'project-card-footer' }, button, externalLink(project.url, '', ui, 'icon-button project-repository', icon('github'), el('span', { class: 'sr-only' }, `${ui.repository}: ${project.title}`)))
+          el('div', { class: 'project-card-footer' }, button, el('div', { class: 'project-links' },
+            project.demoUrl ? externalLink(project.demoUrl, '', ui, 'icon-button', icon('globe'), el('span', { class: 'sr-only' }, `${ui.visitProject}: ${project.title}`)) : null,
+            project.url ? externalLink(project.url, '', ui, 'icon-button project-repository', icon('github'), el('span', { class: 'sr-only' }, `${ui.repository}: ${project.title}`)) : null,
+            project.repositoryVisibility === 'private' ? el('span', { class: 'private-code', title: ui.privateRepository }, icon('code'), el('span', { class: 'sr-only' }, ui.privateRepository)) : null))
         )
       );
     }));
     if (!projects.length) projectGrid.append(el('div', { class: 'empty-state' }, icon('spark'), el('h3', {}, ui.emptyTitle), el('p', {}, ui.emptyDescription)));
     countLabel.textContent = projectCountLabel(ui, projects.length);
+    projectGrid.scrollTo({ left: 0, behavior: 'instant' });
+    requestAnimationFrame(syncCarousel);
   }
   const filters = el('div', { class: 'project-filters', role: 'group', 'aria-label': ui.filterLabel }, data.projectsSection.categories.map(category => {
     const count = filterProjects(data.projects, category.id).length;
@@ -252,15 +299,15 @@ function render(data) {
   updateProjects('all');
   const projects = el('section', { id: data.projectsSection.id, class: 'section projects-section container', 'aria-labelledby': `${data.projectsSection.id}-title` },
     sectionHeading(data.projectsSection, externalLink(social('github').url, data.projectsSection.githubLabel, ui, 'text-link section-link', icon('arrowUpRight'))),
-    el('p', { class: 'projects-intro' }, data.projectsSection.description), filters, countLabel, projectGrid
+    el('p', { class: 'projects-intro' }, data.projectsSection.description), filters, countLabel, projectGrid,
+    el('div', { class: 'carousel-toolbar' }, carouselPosition, el('div', { class: 'carousel-controls' }, previousProject, nextProject))
   );
 
   const expertise = el('section', { id: data.expertise.id, class: 'section expertise-section', 'aria-labelledby': `${data.expertise.id}-title` }, el('div', { class: 'container' },
     sectionHeading(data.expertise),
     el('div', { class: 'expertise-grid' }, data.expertise.groups.map(group => el('article', { class: 'expertise-card' },
       el('div', { class: 'expertise-topline' }, icon(group.icon), el('span', {}, group.number)), el('h3', {}, group.title), el('p', {}, group.description), el('ul', {}, group.items.map(item => el('li', {}, item)))
-    ))),
-    el('div', { class: 'learning-note' }, icon(data.expertise.learning.icon), el('span', { class: 'eyebrow' }, data.expertise.learning.label), el('p', {}, data.expertise.learning.text))
+    )))
   ));
 
   const experience = el('section', { id: data.experience.id, class: 'section experience-section container', 'aria-labelledby': `${data.experience.id}-title` },

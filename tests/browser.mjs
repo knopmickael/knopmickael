@@ -47,6 +47,17 @@ async (page) => {
   }
 
   await page.getByRole('button', { name: content.projectsSection.categories.find(item => item.id === 'all').label, exact: true }).click();
+  await page.getByRole('button', { name: content.ui.nextProject, exact: true }).click();
+  await page.waitForFunction(() => document.querySelector('#project-grid').scrollLeft > 0);
+  assert(await page.locator('#project-grid').evaluate(track => track.scrollLeft > 0), 'Seta avança o carrossel horizontal');
+  await page.locator('#project-grid').focus();
+  await page.keyboard.press('End');
+  await page.waitForFunction(() => { const track = document.querySelector('#project-grid'); return track.scrollLeft >= track.scrollWidth - track.clientWidth - 2; });
+  assert(await page.getByRole('button', { name: content.ui.nextProject, exact: true }).isDisabled(), 'End chega ao último projeto e desativa avanço');
+  await page.keyboard.press('Home');
+  await page.waitForFunction(() => document.querySelector('#project-grid').scrollLeft < 2);
+  assert(await page.getByRole('button', { name: content.ui.previousProject, exact: true }).isDisabled(), 'Home volta ao início do carrossel');
+  assert(await page.getByText('EM APROFUNDAMENTO', { exact: true }).count() === 0, 'Trecho de aprofundamento foi removido do site');
   const layout = [];
   for (const width of [320, 390, 720, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });

@@ -32,6 +32,21 @@ test('links permit HTTPS and local anchors but reject executable and credential-
   for (const url of ['javascript:alert(1)', 'data:text/html,hello', '//example.com', 'https://user:password@example.com', '#', '']) assert.equal(safeUrl(url), false);
 });
 
+test('private projects support no links and every project visual mode validates', () => {
+  const content = structuredClone(source);
+  const project = content.projects[0];
+  delete project.url;
+  project.repositoryVisibility = 'private';
+  for (const visual of [{ type: 'repository' }, { type: 'pending', prompt: 'Gerar depois com referência real.' }, { type: 'image', src: 'assets/projects/case.png', label: 'Tela inicial do case' }]) {
+    project.visual = visual;
+    assert.equal(validatePortfolio(content), content);
+  }
+  const resume = createResume(content);
+  assert.ok(resume.includes(project.title));
+  assert.ok(!resume.includes('(undefined)'));
+  assert.ok(!resume.includes('](undefined)'));
+});
+
 test('project filters handle all, a single category and an empty selection', () => {
   const originalProjects = structuredClone(source.projects);
   assert.equal(filterProjects(source.projects, 'all').length, source.projects.length);

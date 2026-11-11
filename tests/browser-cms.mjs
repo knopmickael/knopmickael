@@ -1,0 +1,110 @@
+/* Execute through Playwright MCP against: node tests/serve-cms.mjs.
+ * The fixture uses temporary storage, never the working portfolio.json.
+ */
+async (page) => {
+  const origin = new URL(page.url()).origin;
+  if (new URL(origin).port !== '4175') throw new Error('Use o CMS de teste isolado na porta 4175.');
+  const checks = [];
+  const assert = (condition, message) => { if (!condition) throw new Error(message); checks.push(message); };
+  const read = async () => (await (await page.request.get(`${origin}/api/content`)).json()).content;
+  const save = async () => {
+    await page.getByRole('button', { name: 'Salvar no JSON', exact: true }).click();
+    await page.getByText('JSON sincronizado · tudo salvo no disco', { exact: true }).waitFor();
+  };
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${origin}/cms/`);
+  await page.getByRole('heading', { name: 'Projetos', exact: true }).waitFor();
+  const initial = await read();
+  assert(await page.locator('.project-row').count() === initial.projects.length, 'CMS lê o acervo completo do disco');
+  await page.getByRole('button', { name: /^Categorias \d/ }).click();
+  await page.getByRole('button', { name: '+ Nova categoria', exact: true }).click();
+  await page.getByLabel('Nome da categoria', { exact: true }).fill('Casos de teste');
+  await page.getByLabel('Identificador', { exact: true }).fill('cms-test');
+  await page.getByRole('button', { name: 'Aplicar categoria', exact: true }).click();
+  await page.getByRole('button', { name: /^Projetos \d/ }).click();
+  await page.getByRole('button', { name: '+ Novo projeto', exact: true }).click();
+  await page.getByLabel('Título', { exact: true }).fill('Case privado · CMS');
+  await page.getByLabel('Identificador único', { exact: true }).fill('cms-test-project');
+  await page.getByLabel('Categoria', { exact: true }).last().selectOption('cms-test');
+  await page.getByLabel('Tipo / chamada', { exact: true }).fill('CASE PRIVADO');
+  await page.getByLabel('Descrição', { exact: true }).fill('Projeto privado criado na regressão de navegador.');
+  await page.getByLabel('Tecnologias', { exact: true }).fill('Node.js, JavaScript');
+  await page.getByLabel('Visibilidade do código', { exact: true }).selectOption('private');
+  await page.getByLabel('Como apresentar este projeto?', { exact: true }).selectOption('pending');
+  await page.getByLabel('Briefing para inferência posterior', { exact: true }).fill('Preparar composição técnica posteriormente, sem API de IA.');
+  await page.getByRole('button', { name: '+ Adicionar bloco', exact: true }).click();
+  await page.getByLabel('Bloco 1 · título', { exact: true }).fill('O desafio');
+  await page.getByLabel('Texto', { exact: true }).fill('Um case sem links públicos.');
+  await page.getByRole('button', { name: 'Aplicar projeto', exact: true }).click();
+  await save();
+  let content = await read();
+  let project = content.projects.find(item => item.id === 'cms-test-project');
+  assert(project?.visual.type === 'pending' && !project.url && project.repositoryVisibility === 'private', 'Cria e persiste projeto privado sem URL, com inferência pendente');
+  assert(content.projectsSection.categories.some(item => item.id === 'cms-test'), 'Cria e persiste categoria');
+
+  await page.getByRole('button', { name: 'Editar projeto: Case privado · CMS', exact: true }).click();
+  await page.getByLabel('Identificador único', { exact: true }).fill(initial.projects[0].id);
+  await page.getByRole('button', { name: 'Aplicar projeto', exact: true }).click();
+  await page.getByRole('alert').filter({ hasText: 'duplicate project ID' }).waitFor();
+  assert(await page.getByRole('dialog').isVisible(), 'ID duplicado mantém o formulário aberto com erro');
+  await page.getByLabel('Identificador único', { exact: true }).fill('cms-test-project');
+  await page.getByLabel('Como apresentar este projeto?', { exact: true }).selectOption('image');
+  await page.getByLabel('Imagem do projeto', { exact: true }).setInputFiles({ name: 'screenshot.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=', 'base64') });
+  await page.getByLabel('Descrição da imagem (texto alternativo)', { exact: true }).fill('Screenshot de teste do projeto privado');
+  await page.getByRole('button', { name: 'Aplicar projeto', exact: true }).click();
+  await save();
+  project = (await read()).projects.find(item => item.id === 'cms-test-project');
+  assert(project.visual.type === 'image' && project.visual.src.startsWith('assets/projects/'), 'Upload real grava a imagem e seu caminho no JSON');
+  await page.goto(`${origin}/#projetos`);
+  await page.getByRole('button', { name: 'Casos de teste', exact: true }).click();
+  await page.getByRole('button', { name: 'Explorar projeto: Case privado · CMS', exact: true }).click();
+  const detail = page.getByRole('dialog');
+  assert(await detail.getByRole('link').count() === 0, 'Projeto privado sem URLs não ganha links inválidos no site');
+  assert(await detail.getByText('Código privado', { exact: true }).isVisible(), 'Site informa código privado');
+  assert(await detail.getByRole('img', { name: 'Screenshot de teste do projeto privado' }).evaluate(image => image.complete && image.naturalWidth > 0), 'Site carrega a imagem enviada pelo CMS');
+  await page.keyboard.press('Escape');
+
+  await page.goto(`${origin}/cms/`);
+  await page.getByRole('button', { name: /^Categorias \d/ }).click();
+  await page.getByRole('button', { name: 'Editar categoria: Casos de teste', exact: true }).click();
+  await page.getByLabel('Nome da categoria', { exact: true }).fill('Cases renomeados');
+  await page.getByLabel('Identificador', { exact: true }).fill('cms-renamed');
+  await page.getByRole('button', { name: 'Aplicar categoria', exact: true }).click();
+  await save();
+  assert((await read()).projects.find(item => item.id === 'cms-test-project').category === 'cms-renamed', 'Renomear identificador da categoria atualiza o vínculo dos projetos');
+  await page.getByRole('button', { name: 'Remover categoria: Cases renomeados', exact: true }).click();
+  await page.getByLabel('Mover projetos para', { exact: true }).selectOption('backend');
+  await page.getByRole('dialog').getByRole('button', { name: 'Remover categoria', exact: true }).click();
+  await save();
+  content = await read();
+  assert(!content.projectsSection.categories.some(item => item.id === 'cms-renamed') && content.projects.find(item => item.id === 'cms-test-project').category === 'backend', 'Remoção de categoria migra os projetos para o destino escolhido');
+
+  await page.getByRole('button', { name: 'Conteúdo do site ↗', exact: true }).click();
+  await page.getByLabel('Qual seção deseja editar?', { exact: true }).selectOption('meta');
+  await page.getByLabel('Título · title', { exact: true }).fill('Portfólio editado pelo CMS');
+  await save();
+  assert((await read()).meta.title === 'Portfólio editado pelo CMS', 'Editor dinâmico altera e persiste outros conteúdos do site');
+  await page.getByLabel('Título · title', { exact: true }).fill('Alteração a descartar');
+  page.once('dialog', dialog => dialog.accept());
+  await page.getByRole('button', { name: 'Recarregar', exact: true }).click();
+  await page.getByText('JSON sincronizado · tudo salvo no disco', { exact: true }).waitFor();
+  await page.getByRole('button', { name: 'Conteúdo do site ↗', exact: true }).click();
+  assert(await page.getByLabel('Título · title', { exact: true }).inputValue() === 'Portfólio editado pelo CMS', 'Recarregar descarta apenas alterações não salvas');
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert(await page.evaluate(() => document.documentElement.scrollWidth === innerWidth), 'CMS sem overflow horizontal em 390 px');
+  await page.getByRole('button', { name: /^Projetos \d/ }).click();
+  const trigger = page.getByRole('button', { name: 'Editar projeto: Case privado · CMS', exact: true });
+  await trigger.click();
+  assert(await page.getByRole('dialog').evaluate(dialog => dialog.scrollWidth === dialog.clientWidth), 'Editor de projeto ajusta-se à tela mobile');
+  await page.keyboard.press('Escape');
+  assert(await trigger.evaluate(button => button === document.activeElement), 'Escape fecha o editor e devolve o foco');
+  await page.getByRole('button', { name: 'Mover para antes: Case privado · CMS', exact: true }).click();
+  await save();
+  assert((await read()).projects.at(-2).id === 'cms-test-project', 'Reordenação é salva e respeita a sequência do carrossel');
+  page.once('dialog', dialog => dialog.accept());
+  await page.getByRole('button', { name: 'Remover projeto: Case privado · CMS', exact: true }).click();
+  await save();
+  assert(!(await read()).projects.some(item => item.id === 'cms-test-project'), 'Remover projeto atualiza o JSON no disco');
+  return { checks };
+}

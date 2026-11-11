@@ -6,6 +6,10 @@ import { validatePortfolio } from '../lib/content.js';
 export const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 export const publicFiles = ['index.html', 'styles.css', 'app.js', 'portfolio.json', 'lib/content.js', 'assets/favicon.svg'];
 
+export function filesForPortfolio(data) {
+  return [...new Set([...publicFiles, ...data.projects.filter(project => project.visual.type === 'image').map(project => project.visual.src)])];
+}
+
 export async function readPortfolio() {
   return validatePortfolio(JSON.parse(await readFile(resolve(projectRoot, 'portfolio.json'), 'utf8')));
 }

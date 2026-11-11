@@ -7,8 +7,9 @@
   "engines": { "node": ">=22" },
   "scripts": {
     "dev": "node scripts/serve.mjs",
+    "cms": "node scripts/cms.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs --dist",
-    "check": "node --check app.js && node --check lib/content.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/site.mjs && node --check tests/browser.mjs && node --test tests/content.test.mjs"
+    "check": "node --check app.js && node --check cms/cms.js && node --check lib/content.js && node --check scripts/build.mjs && node --check scripts/serve.mjs && node --check scripts/site.mjs && node --check scripts/cms.mjs && node --check tests/browser.mjs && node --check tests/browser-cms.mjs && node --check tests/serve-cms.mjs && node --test tests/*.test.mjs"
   }
 }

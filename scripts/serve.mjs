@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, resolve } from 'node:path';
 import { projectRoot, publicFiles, readPortfolio, compileHtml } from './site.mjs';
+import { imagePathPattern } from '../lib/content.js';
 
 function argument(name, fallback) {
   const index = process.argv.indexOf(name);
@@ -14,7 +15,7 @@ const rawBase = argument('--base', '/');
 const base = `/${rawBase.split('/').filter(Boolean).join('/')}${rawBase === '/' ? '' : '/'}`;
 const production = process.argv.includes('--dist');
 const directory = production ? resolve(projectRoot, 'dist') : projectRoot;
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp' };
 const allowed = new Set([...publicFiles, '.nojekyll']);
 
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT must be an integer between 1 and 65535.');
@@ -34,7 +35,7 @@ const server = createServer(async (request, response) => {
       return;
     }
     const file = pathname.slice(base.length) || 'index.html';
-    if (!allowed.has(file)) {
+    if (!allowed.has(file) && !imagePathPattern.test(file)) {
       response.writeHead(404).end('Not found');
       return;
     }

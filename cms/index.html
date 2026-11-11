@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Estúdio de conteúdo · Portfólio</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/cms/cms.css" />
+  <script src="/cms/cms.js" type="module"></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Pular para o editor</a>
+  <header class="topbar">
+    <a class="brand" href="/cms/"><span class="brand-mark">mk</span><span>Estúdio de conteúdo<small>PORTFÓLIO / CMS LOCAL</small></span></a>
+    <a class="button secondary" href="/" target="_blank" rel="noopener">Abrir site ↗</a>
+  </header>
+  <div class="shell">
+    <aside>
+      <p class="eyebrow">SEU CONTEÚDO</p>
+      <nav aria-label="Áreas do CMS">
+        <button type="button" data-view="projects" aria-current="page">Projetos <span id="project-count">—</span></button>
+        <button type="button" data-view="categories">Categorias <span id="category-count">—</span></button>
+        <button type="button" data-view="content">Conteúdo do site <span>↗</span></button>
+      </nav>
+      <div class="local-note"><span class="dot"></span> Ambiente local<p>Os dados vêm do seu <code>portfolio.json</code>. Aplique as edições e salve para atualizar o arquivo.</p></div>
+    </aside>
+    <main id="workspace" tabindex="-1">
+      <div class="savebar">
+        <p id="save-state">Carregando conteúdo…</p>
+        <div class="actions">
+          <button type="button" class="button quiet" id="reload" disabled>Recarregar</button>
+          <button type="button" class="button secondary" id="export" disabled>Exportar rascunho</button>
+          <button type="button" class="button primary" id="save" disabled>Salvar no JSON</button>
+        </div>
+      </div>
+      <div id="feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+      <div id="view"><p class="empty">Lendo o conteúdo do portfólio…</p></div>
+    </main>
+  </div>
+  <dialog id="editor" aria-labelledby="editor-title"></dialog>
+</body>
+</html>
