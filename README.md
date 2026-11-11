@@ -26,36 +26,6 @@ Gosto de investigar o que existe por trás das abstrações e escolher ferrament
 | Arquitetura e cloud | Clean Architecture, DDD, Docker, CI/CD, AWS e Azure |
 | Ecossistema Microsoft | Microsoft 365, Office.js e Entra ID |
 
-## Projetos em destaque
-
-### [OMDb Movies Showcase](https://github.com/knopmickael/omdb-movies-showcase)
-
-Aplicação full-stack para explorar informações de filmes, conectando uma API NestJS a um cliente React e ao serviço externo OMDb.
-
-**TypeScript · NestJS · React · REST API**
-
-### [Webstore · Sistema de pedidos](https://github.com/knopmickael/webstore-laravel)
-
-Laboratório de backend com eventos, filas e processamento assíncrono de pedidos. Explora cache com invalidação, validação e organização dos contratos HTTP.
-
-**PHP · Laravel · PostgreSQL · Redis · Docker**
-
-### [Node Cluster & Load Balancer](https://github.com/knopmickael/node-cluster-with-load-balancer)
-
-Experimento para compreender concorrência, processos e distribuição de carga no Node.js, comparando configurações de servidor com testes de carga reproduzíveis.
-
-**Node.js · Cluster · Load balancing · autocannon**
-
-### [Office API · Reprodução de bug](https://github.com/knopmickael/office-importFileAsBase64-bug-demo)
-
-Exemplo mínimo para investigar o comportamento de importação de arquivos na API do Microsoft Office. Uma prática de isolar problemas e comunicar evidências técnicas.
-
-**JavaScript · Office.js · Debugging · Integrações**
-
 ## Vamos conversar?
 
 Gosto de trocar ideias sobre engenharia de software, arquitetura e desafios de integração. Para oportunidades ou uma conversa técnica, [me encontre no LinkedIn](https://linkedin.com/in/knopmickael).
-
----
-
-Este repositório também contém meu site de portfólio. As instruções para executar, personalizar e publicar o projeto estão em [portfolio-readme.md](./portfolio-readme.md).
