@@ -7,7 +7,7 @@ export const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 export const publicFiles = ['index.html', 'styles.css', 'app.js', 'portfolio.json', 'lib/content.js', 'assets/favicon.svg'];
 
 export function filesForPortfolio(data) {
-  return [...new Set([...publicFiles, ...data.projects.filter(project => project.visual.type === 'image').map(project => project.visual.src)])];
+  return [...new Set([...publicFiles, ...data.projects.flatMap(project => project.visual.type === 'gallery' ? project.visual.images.map(image => image.src) : [])])];
 }
 
 export async function readPortfolio() {

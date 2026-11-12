@@ -30,12 +30,10 @@ async (page) => {
   await page.getByRole('link', { name: projectNavigation.label, exact: true }).click();
   assert(await page.getByRole('button', { name: content.ui.openMenu }).getAttribute('aria-expanded') === 'false', 'Navegação por âncora recolhe o menu');
 
-  const category = content.projectsSection.categories.find(item => item.id !== 'all' && content.projects.some(project => project.category === item.id));
-  if (category) {
-    await page.getByRole('button', { name: category.label, exact: true }).click();
-    const selected = content.projects.filter(project => project.category === category.id);
-    assert(await page.locator('.project-card').count() === selected.length, 'Filtro mobile reflete os projetos do JSON');
-    const project = selected[0];
+  assert(await page.locator('.project-filters, [data-category]').count() === 0, 'Portfólio não apresenta filtros de categoria');
+  assert(JSON.stringify(await page.locator('.project-card h3').allTextContents()) === JSON.stringify(content.projects.map(project => project.title)), 'Portfólio lista todos os projetos na ordem do JSON');
+  if (content.projects.length) {
+    const project = content.projects[0];
     const trigger = page.getByRole('button', { name: `${content.ui.projectDetails}: ${project.title}`, exact: true });
     await trigger.click();
     assert(await page.getByRole('dialog').isVisible(), 'Projeto abre em diálogo no mobile');
@@ -46,7 +44,6 @@ async (page) => {
     assert(await trigger.evaluate(element => element === document.activeElement), 'Fechar diálogo restaura o foco ao projeto');
   }
 
-  await page.getByRole('button', { name: content.projectsSection.categories.find(item => item.id === 'all').label, exact: true }).click();
   await page.getByRole('button', { name: content.ui.nextProject, exact: true }).click();
   await page.waitForFunction(() => document.querySelector('#project-grid').scrollLeft > 0);
   assert(await page.locator('#project-grid').evaluate(track => track.scrollLeft > 0), 'Seta avança o carrossel horizontal');
@@ -68,17 +65,19 @@ async (page) => {
     layout.push(dimensions);
   }
 
-  const emptyData = structuredClone(content);
-  emptyData.projectsSection.categories.push({ id: 'empty-regression', label: 'Categoria vazia de teste' });
-  emptyData.projects[0].title = 'Um título extenso para verificar a acomodação do conteúdo sem cortes ou perda de informações na interface';
-  emptyData.projects[0].tags.push('TecnologiaComUmNomeMuitoExtensoParaValidarQuebraDeLinha');
-  await page.route('**/portfolio.json', route => route.fulfill({ json: emptyData }));
+  const longData = structuredClone(content);
+  longData.projects[0].title = 'Um título extenso para verificar a acomodação do conteúdo sem cortes ou perda de informações na interface';
+  longData.projects[0].tags.push('TecnologiaComUmNomeMuitoExtensoParaValidarQuebraDeLinha');
+  await page.route('**/portfolio.json', route => route.fulfill({ json: longData }));
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(base);
-  await page.getByRole('heading', { name: emptyData.projects[0].title, exact: true }).waitFor();
+  await page.getByRole('heading', { name: longData.projects[0].title, exact: true }).waitFor();
   assert(await page.evaluate(() => document.documentElement.scrollWidth === innerWidth), 'Conteúdo longo mantém o reflow em 390 px');
-  await page.getByRole('button', { name: 'Categoria vazia de teste', exact: true }).click();
-  assert(await page.getByRole('heading', { name: content.ui.emptyTitle, exact: true }).isVisible(), 'Categoria vazia apresenta estado explicativo');
+  await page.unroute('**/portfolio.json');
+  await page.route('**/portfolio.json', route => route.fulfill({ json: { ...content, projects: [] } }));
+  await page.goto(base);
+  await page.getByRole('heading', { name: content.ui.emptyTitle, exact: true }).waitFor();
+  assert(await page.getByRole('button', { name: content.ui.previousProject, exact: true }).isDisabled() && await page.getByRole('button', { name: content.ui.nextProject, exact: true }).isDisabled(), 'Acervo vazio mostra mensagem e desativa a navegação');
   await page.unroute('**/portfolio.json');
 
   let release;

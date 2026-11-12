@@ -7,7 +7,7 @@ import { once } from 'node:events';
 import { request as httpRequest } from 'node:http';
 import { createCmsServer } from '../scripts/cms.mjs';
 import { buildSite } from '../scripts/build.mjs';
-import { projectRoot, publicFiles } from '../scripts/site.mjs';
+import { projectRoot, publicFiles, filesForPortfolio } from '../scripts/site.mjs';
 
 const source = JSON.parse(await readFile(resolve(projectRoot, 'portfolio.json'), 'utf8'));
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=', 'base64');
@@ -16,6 +16,10 @@ test('local CMS persists real files, protects writes, handles conflicts and publ
   // Isolated storage: these tests never change the working portfolio.
   await mkdir(resolve(tmpdir(), 'opencode'), { recursive: true });
   const root = await mkdtemp(resolve(tmpdir(), 'opencode', 'portfolio-cms-'));
+  for (const file of filesForPortfolio(source).filter(file => !publicFiles.includes(file))) {
+    await mkdir(dirname(resolve(root, file)), { recursive: true });
+    await copyFile(resolve(projectRoot, file), resolve(root, file));
+  }
   await writeFile(resolve(root, 'portfolio.json'), JSON.stringify(source));
   const server = createCmsServer({ root });
   server.listen(0, '127.0.0.1');
@@ -41,22 +45,23 @@ test('local CMS persists real files, protects writes, handles conflicts and publ
     assert.equal((await fetch(`${origin}/scripts/cms.mjs`)).status, 404);
   });
 
-  await t.test('creates, edits and removes projects and categories, retaining a backup', async () => {
+  await t.test('creates, edits, reorders and removes projects without categories, retaining a backup', async () => {
     const content = structuredClone(source);
-    content.projectsSection.categories.push({ id: 'private-work', label: 'Trabalhos privados' });
-    content.projects.push({ id: 'private-case', number: '10', title: 'Case privado', category: 'private-work', type: 'CASE', description: 'Sem URL pública.', tags: [], details: [], repositoryVisibility: 'private', visual: { type: 'pending', prompt: 'Uma composição técnica posterior.' } });
+    content.projects.push({ id: 'private-case', number: String(content.projects.length + 1).padStart(2, '0'), title: 'Case privado', type: 'CASE', description: 'Sem URL pública.', tags: [], details: [], repositoryVisibility: 'private', visual: { type: 'repository' } });
     let response = await save(content, session.revision);
     assert.equal(response.status, 200);
     let current = await get();
     assert.deepEqual(current.content, content);
     assert.deepEqual(JSON.parse(await readFile(resolve(root, '.cms/portfolio.backup.json'), 'utf8')), source);
     content.projects.at(-1).title = 'Case editado';
-    content.projectsSection.categories.at(-1).id = 'consultoria';
-    content.projects.at(-1).category = 'consultoria';
     assert.equal((await save(content, current.revision)).status, 200);
     current = await get();
     assert.equal(current.content.projects.at(-1).title, 'Case editado');
-    content.projects.pop(); content.projectsSection.categories.pop();
+    content.projects.unshift(content.projects.pop());
+    assert.equal((await save(content, current.revision)).status, 200);
+    current = await get();
+    assert.deepEqual(current.content.projects.map(project => project.id), content.projects.map(project => project.id));
+    content.projects.shift();
     assert.equal((await save(content, current.revision)).status, 200);
     assert.deepEqual((await get()).content, source);
   });
@@ -64,13 +69,12 @@ test('local CMS persists real files, protects writes, handles conflicts and publ
   await t.test('rejects invalid data without modifying disk', async () => {
     const initial = await get();
     for (const mutate of [
-      data => { data.projects[0].category = 'missing'; },
-      data => { data.projectsSection.categories.push({ id: 'all', label: 'Duplicada' }); },
+      data => { data.projects[0].id = data.projects[1].id; },
       data => { data.projects[0].url = 'javascript:alert(1)'; },
       data => { data.projects[0].demoUrl = 'file:///secret'; },
-      data => { data.projects[0].visual = { type: 'image', src: '../private.png', label: 'Teste' }; },
-      data => { data.projects[0].visual = { type: 'image', src: 'assets/projects/missing.png', label: 'Teste' }; },
-      data => { data.projects[0].visual = { type: 'pending', prompt: '' }; },
+      data => { data.projects[0].visual = { type: 'gallery', cover: 0, images: [{ src: '../private.png', label: 'Teste' }] }; },
+      data => { data.projects[0].visual = { type: 'gallery', cover: 0, images: [{ src: 'assets/projects/missing.png', label: 'Teste' }] }; },
+      data => { data.projects[0].visual = { type: 'gallery', cover: 0, images: [] }; },
       data => { data.expertise.groups = null; },
       data => { data.hero.title = 'Wrong shape'; }
     ]) {
@@ -91,7 +95,7 @@ test('local CMS persists real files, protects writes, handles conflicts and publ
     assert.deepEqual(outcomes.map(response => response.status).sort(), [200, 409]);
   });
 
-  let imagePath;
+  let imagePath, secondImagePath;
   await t.test('uploads raster images with generated paths and rejects executable or oversized uploads', async () => {
     const response = await request('/api/images', 'POST', png, { 'Content-Type': 'image/png' });
     assert.equal(response.status, 201);
@@ -103,10 +107,19 @@ test('local CMS persists real files, protects writes, handles conflicts and publ
     assert.equal((await request('/api/images', 'POST', '<svg onload="alert(1)"></svg>', { 'Content-Type': 'image/svg+xml' })).status, 415);
     assert.equal((await request('/api/images', 'POST', '<html>not an image</html>', { 'Content-Type': 'image/png' })).status, 415);
     assert.equal((await request('/api/images', 'POST', Buffer.alloc(8 * 1024 * 1024 + 1), { 'Content-Type': 'image/png' })).status, 413);
+    const second = await request('/api/images', 'POST', png, { 'Content-Type': 'image/png' });
+    assert.equal(second.status, 201);
+    secondImagePath = (await second.json()).src;
+    assert.notEqual(imagePath, secondImagePath);
     const current = await get();
-    current.content.projects[0].visual = { type: 'image', src: imagePath, label: 'Screenshot de teste' };
+    current.content.projects[0].visual = { type: 'gallery', cover: 1, images: [{ src: imagePath, label: 'Tela wide' }, { src: secondImagePath, label: 'Tela mobile' }] };
     assert.equal((await save(current.content, current.revision)).status, 200);
-    assert.equal((await get()).content.projects[0].visual.src, imagePath);
+    assert.deepEqual((await get()).content.projects[0].visual, current.content.projects[0].visual);
+    const latest = await get();
+    const missing = structuredClone(latest.content);
+    missing.projects[0].visual.images[0].src = 'assets/projects/missing.png';
+    assert.equal((await save(missing, latest.revision)).status, 422, 'Every image is checked, including non-cover images');
+    assert.equal((await get()).revision, latest.revision);
   });
 
   await t.test('build includes referenced images but excludes CMS, backups and unused uploads', async () => {
@@ -117,8 +130,10 @@ test('local CMS persists real files, protects writes, handles conflicts and publ
     await writeFile(resolve(root, 'assets/projects/unused.png'), png);
     await buildSite({ root });
     assert.deepEqual(await readFile(resolve(root, 'dist', imagePath)), png);
+    assert.deepEqual(await readFile(resolve(root, 'dist', secondImagePath)), png);
     const publishedRoot = await readdir(resolve(root, 'dist'));
     assert.ok(!publishedRoot.includes('cms') && !publishedRoot.includes('.cms') && !publishedRoot.includes('scripts'));
-    assert.deepEqual(await readdir(resolve(root, 'dist/assets/projects')), [imagePath.split('/').at(-1)]);
+    const referenced = filesForPortfolio((await get()).content).filter(file => file.startsWith('assets/projects/'));
+    assert.deepEqual((await readdir(resolve(root, 'dist/assets/projects'))).sort(), referenced.map(path => path.split('/').at(-1)).sort());
   });
 });

@@ -1,4 +1,4 @@
-import { validatePortfolio, filterProjects, projectCountLabel, createResume } from './lib/content.js';
+import { validatePortfolio, createResume } from './lib/content.js';
 
 const root = document.querySelector('#app');
 const boot = JSON.parse(document.querySelector('#boot-content').textContent);
@@ -66,47 +66,49 @@ function sectionHeading(data, extras = null) {
   );
 }
 
-function createArtwork(visual, ui, miniature = false) {
-  const artwork = el('div', { class: `project-art art-${visual.type}${miniature ? ' art-miniature' : ''}`, role: 'img', 'aria-label': `${visual.label} ${ui.illustrationLabel}.` });
-  const contents = el('div', { class: 'art-content', 'aria-hidden': 'true' }, el('span', { class: 'art-eyebrow' }, visual.eyebrow));
-  if (visual.type === 'cinema') {
-    contents.append(el('div', { class: 'cinema-posters' }, visual.items.map((item, i) => el('div', { class: `cinema-poster poster-${i}` }, el('span', {}, item)))));
-    contents.append(el('div', { class: 'cinema-title' }, visual.title, visual.mark ? el('span', {}, visual.mark) : null), el('span', { class: 'art-subtitle' }, visual.subtitle));
-  } else if (visual.type === 'pipeline') {
-    contents.append(el('div', { class: 'art-title' }, visual.title));
-    contents.append(el('div', { class: 'pipeline-nodes' }, visual.items.map((item, index) => el('div', { class: `pipeline-node node-${index}` }, icon(index === 0 ? 'code' : index === 3 ? 'check' : 'layers'), el('span', {}, item)))));
-  } else if (visual.type === 'cluster') {
-    contents.append(el('div', { class: 'art-title' }, visual.title), el('div', { class: 'cluster-tree' },
-      el('div', { class: 'cluster-primary' }, icon('terminal'), visual.items[0]),
-      el('div', { class: 'cluster-workers' }, visual.items.slice(1).map(item => el('span', {}, el('i', {}), item)))
-    ));
-  } else {
-    contents.append(el('div', { class: 'art-title' }, visual.title), el('div', { class: 'document-stack' },
-      el('div', { class: 'paper paper-back' }),
-      el('div', { class: 'paper' }, el('span', { class: 'paper-label' }, visual.items[0]), el('i', {}), el('i', {}), el('i', {}), el('span', { class: 'paper-code' }, '</>')),
-      el('div', { class: 'code-fragment' }, icon('code'), visual.items[1], el('span', {}, visual.items[2]))
-    ));
-  }
-  contents.append(el('span', { class: 'art-footer' }, visual.footer));
-  artwork.append(contents);
-  return artwork;
-}
-
 function projectArtwork(project, ui, miniature = false) {
   const visual = project.visual;
-  if (visual.type === 'image') {
-    const fallback = () => projectArtwork({ ...project, visual: { type: 'repository' } }, ui, miniature);
-    const frame = el('div', { class: `project-art art-image${miniature ? ' art-miniature' : ''}` });
-    frame.append(el('img', { src: visual.src, alt: visual.label, width: '1200', height: '750', loading: miniature ? 'eager' : 'lazy', decoding: 'async', onerror: () => frame.replaceWith(fallback()) }));
-    return frame;
-  }
-  if (['pending', 'repository'].includes(visual.type)) {
+  if (visual.type === 'repository') {
     return el('div', { class: `project-art art-repository${miniature ? ' art-miniature' : ''}`, 'aria-hidden': 'true' },
       el('div', { class: 'repository-cover' }, el('div', { class: 'repository-cover-top' }, icon('terminal'), el('span', {}, project.type)),
         el('span', { class: 'repository-cover-title' }, project.title),
         el('div', { class: 'repository-cover-bottom' }, el('span', {}, '</>'), el('span', {}, project.tags.slice(0, 3).join(' / ')))));
   }
-  return createArtwork(visual, ui, miniature);
+  let current = visual.cover;
+  const gallery = el('div', { class: `project-art art-gallery${miniature ? ' art-miniature' : ''}`, role: 'group', 'aria-roledescription': 'carrossel', 'aria-label': ui.galleryLabel.replace('{title}', project.title), tabindex: '0' });
+  const stage = el('div', { class: 'gallery-stage' });
+  const position = el('span', { class: 'sr-only', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
+  function showImage(index) {
+    current = (index + visual.images.length) % visual.images.length;
+    const image = visual.images[current];
+    stage.replaceChildren(el('img', { src: image.src, alt: image.label, loading: miniature ? 'eager' : 'lazy', decoding: 'async', draggable: 'false', onerror: event => {
+      if (!event.currentTarget.isConnected) return;
+      stage.replaceChildren(projectArtwork({ ...project, visual: { type: 'repository' } }, ui, miniature), el('p', { class: 'gallery-error', role: 'status' }, ui.galleryImageError));
+    } }));
+    position.textContent = `${ui.galleryPosition.replace('{current}', String(current + 1)).replace('{count}', String(visual.images.length))}: ${image.label}`;
+  }
+  const previous = el('button', { type: 'button', class: 'icon-button gallery-previous carousel-previous', 'aria-label': ui.previousImage, disabled: visual.images.length === 1, onclick: () => showImage(current - 1) }, icon('arrowRight'));
+  const next = el('button', { type: 'button', class: 'icon-button gallery-next', 'aria-label': ui.nextImage, disabled: visual.images.length === 1, onclick: () => showImage(current + 1) }, icon('arrowRight'));
+  gallery.addEventListener('keydown', event => {
+    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault(); event.stopPropagation();
+    showImage(event.key === 'Home' ? 0 : event.key === 'End' ? visual.images.length - 1 : current + (event.key === 'ArrowRight' ? 1 : -1));
+  });
+  let touch;
+  stage.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse') return;
+    touch = { x: event.clientX, y: event.clientY }; stage.setPointerCapture(event.pointerId);
+  });
+  stage.addEventListener('pointercancel', () => { touch = undefined; });
+  stage.addEventListener('pointerup', event => {
+    if (!touch) return;
+    const x = event.clientX - touch.x, y = event.clientY - touch.y;
+    touch = undefined;
+    if (Math.abs(x) > 40 && Math.abs(x) > Math.abs(y) * 1.4) showImage(current + (x < 0 ? 1 : -1));
+  });
+  gallery.append(stage, previous, next, position);
+  showImage(current);
+  return gallery;
 }
 
 function createSystem(data) {
@@ -265,41 +267,26 @@ function render(data) {
     if (event.key === 'Home' || event.key === 'End') projectGrid.scrollTo({ left: event.key === 'Home' ? 0 : projectGrid.scrollWidth, behavior: scrollBehavior() });
     else projectGrid.scrollBy({ left: step() * (event.key === 'ArrowRight' ? 1 : -1), behavior: scrollBehavior() });
   });
-  const countLabel = el('p', { class: 'sr-only', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
-  const filterButtons = [];
-  function updateProjects(category) {
-    const projects = filterProjects(data.projects, category);
-    filterButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.category === category)));
-    projectGrid.replaceChildren(...projects.map((project, index) => {
-      const button = el('button', { class: 'project-open', type: 'button', 'aria-label': `${ui.projectDetails}: ${project.title}`, onclick: () => showProject(project, button) }, ui.projectDetails, icon('arrowUpRight'));
-      return el('article', { class: 'project-card', 'aria-label': `${index + 1} / ${projects.length}: ${project.title}` },
-        projectArtwork(project, ui),
-        el('div', { class: 'project-info' },
-          el('div', { class: 'project-type' }, el('span', {}, project.type), el('span', {}, `/${project.number}`)),
-          el('h3', {}, project.title), el('p', {}, project.description),
-          el('div', { class: 'tags' }, project.tags.map(tag => el('span', {}, tag))),
-          el('div', { class: 'project-card-footer' }, button, el('div', { class: 'project-links' },
-            project.demoUrl ? externalLink(project.demoUrl, '', ui, 'icon-button', icon('globe'), el('span', { class: 'sr-only' }, `${ui.visitProject}: ${project.title}`)) : null,
-            project.url ? externalLink(project.url, '', ui, 'icon-button project-repository', icon('github'), el('span', { class: 'sr-only' }, `${ui.repository}: ${project.title}`)) : null,
-            project.repositoryVisibility === 'private' ? el('span', { class: 'private-code', title: ui.privateRepository }, icon('code'), el('span', { class: 'sr-only' }, ui.privateRepository)) : null))
-        )
-      );
-    }));
-    if (!projects.length) projectGrid.append(el('div', { class: 'empty-state' }, icon('spark'), el('h3', {}, ui.emptyTitle), el('p', {}, ui.emptyDescription)));
-    countLabel.textContent = projectCountLabel(ui, projects.length);
-    projectGrid.scrollTo({ left: 0, behavior: 'instant' });
-    requestAnimationFrame(syncCarousel);
-  }
-  const filters = el('div', { class: 'project-filters', role: 'group', 'aria-label': ui.filterLabel }, data.projectsSection.categories.map(category => {
-    const count = filterProjects(data.projects, category.id).length;
-    const button = el('button', { type: 'button', 'aria-pressed': category.id === 'all', 'aria-controls': 'project-grid', 'data-category': category.id, onclick: () => updateProjects(category.id) }, category.label, el('span', { 'aria-hidden': 'true' }, String(count).padStart(2, '0')));
-    filterButtons.push(button);
-    return button;
+  projectGrid.replaceChildren(...data.projects.map((project, index) => {
+    const button = el('button', { class: 'project-open', type: 'button', 'aria-label': `${ui.projectDetails}: ${project.title}`, onclick: () => showProject(project, button) }, ui.projectDetails, icon('arrowUpRight'));
+    return el('article', { class: 'project-card', 'aria-label': `${index + 1} / ${data.projects.length}: ${project.title}` },
+      projectArtwork(project, ui),
+      el('div', { class: 'project-info' },
+        el('div', { class: 'project-type' }, el('span', {}, project.type), el('span', {}, `/${project.number}`)),
+        el('h3', {}, project.title), el('p', {}, project.description),
+        el('div', { class: 'tags' }, project.tags.map(tag => el('span', {}, tag))),
+        el('div', { class: 'project-card-footer' }, button, el('div', { class: 'project-links' },
+          project.demoUrl ? externalLink(project.demoUrl, '', ui, 'icon-button', icon('globe'), el('span', { class: 'sr-only' }, `${ui.visitProject}: ${project.title}`)) : null,
+          project.url ? externalLink(project.url, '', ui, 'icon-button project-repository', icon('github'), el('span', { class: 'sr-only' }, `${ui.repository}: ${project.title}`)) : null,
+          project.repositoryVisibility === 'private' ? el('span', { class: 'private-code', title: ui.privateRepository }, icon('code'), el('span', { class: 'sr-only' }, ui.privateRepository)) : null))
+      )
+    );
   }));
-  updateProjects('all');
+  if (!data.projects.length) projectGrid.append(el('div', { class: 'empty-state' }, icon('spark'), el('h3', {}, ui.emptyTitle), el('p', {}, ui.emptyDescription)));
+  requestAnimationFrame(syncCarousel);
   const projects = el('section', { id: data.projectsSection.id, class: 'section projects-section container', 'aria-labelledby': `${data.projectsSection.id}-title` },
     sectionHeading(data.projectsSection, externalLink(social('github').url, data.projectsSection.githubLabel, ui, 'text-link section-link', icon('arrowUpRight'))),
-    el('p', { class: 'projects-intro' }, data.projectsSection.description), filters, countLabel, projectGrid,
+    el('p', { class: 'projects-intro' }, data.projectsSection.description), projectGrid,
     el('div', { class: 'carousel-toolbar' }, carouselPosition, el('div', { class: 'carousel-controls' }, previousProject, nextProject))
   );
 

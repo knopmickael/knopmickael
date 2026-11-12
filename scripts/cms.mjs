@@ -65,9 +65,11 @@ export function createCmsServer({ root = projectRoot } = {}) {
             const previous = await readFile(contentFile, 'utf8');
             if (request.headers['if-match'] !== revisionOf(previous)) throw fail(409, 'O JSON mudou no disco ou em outra aba. Exporte seu rascunho e recarregue antes de salvar.');
             for (const project of content.projects) {
-              if (project.visual.type === 'image') {
-                try { await access(resolve(root, project.visual.src)); }
-                catch { throw fail(422, `Imagem não encontrada: ${project.visual.src}`); }
+              if (project.visual.type === 'gallery') {
+                for (const image of project.visual.images) {
+                  try { await access(resolve(root, image.src)); }
+                  catch { throw fail(422, `Imagem não encontrada: ${image.src}`); }
+                }
               }
             }
             const source = `${JSON.stringify(content, null, 2)}\n`;

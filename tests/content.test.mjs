@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { validatePortfolio, safeUrl, filterProjects, projectCountLabel, createResume } from '../lib/content.js';
+import { validatePortfolio, safeUrl, createResume } from '../lib/content.js';
 import { compileHtml, publicFiles } from '../scripts/site.mjs';
 
 const source = JSON.parse(await readFile(new URL('../portfolio.json', import.meta.url), 'utf8'));
@@ -9,15 +9,14 @@ const template = await readFile(new URL('../index.html', import.meta.url), 'utf8
 
 test('the actual portfolio has valid content and resolvable navigation targets', () => {
   assert.equal(validatePortfolio(source), source);
+  assert.ok(!Object.hasOwn(source.projectsSection, 'categories'));
+  assert.ok(source.projects.every(project => !Object.hasOwn(project, 'category')));
 });
 
-test('content rejects broken categories, duplicate project identifiers and unsafe links', () => {
+test('content rejects duplicate project identifiers and unsafe links', () => {
   const duplicate = structuredClone(source);
   duplicate.projects[1].id = duplicate.projects[0].id;
   assert.throws(() => validatePortfolio(duplicate), /duplicate project ID/);
-  const category = structuredClone(source);
-  category.projects[0].category = 'missing-category';
-  assert.throws(() => validatePortfolio(category), /Unknown category/);
   const link = structuredClone(source);
   link.projects[0].url = 'javascript:alert(1)';
   assert.throws(() => validatePortfolio(link), /Invalid repository URL/);
@@ -37,7 +36,7 @@ test('private projects support no links and every project visual mode validates'
   const project = content.projects[0];
   delete project.url;
   project.repositoryVisibility = 'private';
-  for (const visual of [{ type: 'repository' }, { type: 'pending', prompt: 'Gerar depois com referência real.' }, { type: 'image', src: 'assets/projects/case.png', label: 'Tela inicial do case' }]) {
+  for (const visual of [{ type: 'repository' }, { type: 'gallery', cover: 1, images: [{ src: 'assets/projects/wide.png', label: 'Tela desktop' }, { src: 'assets/projects/mobile.webp', label: 'Tela mobile' }] }]) {
     project.visual = visual;
     assert.equal(validatePortfolio(content), content);
   }
@@ -47,16 +46,37 @@ test('private projects support no links and every project visual mode validates'
   assert.ok(!resume.includes('](undefined)'));
 });
 
-test('project filters handle all, a single category and an empty selection', () => {
-  const originalProjects = structuredClone(source.projects);
-  assert.equal(filterProjects(source.projects, 'all').length, source.projects.length);
-  const backend = filterProjects(source.projects, 'backend');
-  assert.ok(backend.length > 0);
-  assert.ok(backend.every(project => project.category === 'backend'));
-  assert.deepEqual(filterProjects(source.projects, 'missing'), []);
-  assert.deepEqual(source.projects, originalProjects);
-  assert.match(projectCountLabel(source.ui, 1), /^1 projeto nesta seleção$/);
-  assert.match(projectCountLabel(source.ui, 0), /^0 projetos nesta seleção$/);
+test('galleries reject empty images, missing alt text, unsafe paths and invalid covers', () => {
+  const content = structuredClone(source);
+  const image = { src: 'assets/projects/wide.png', label: 'Tela desktop' };
+  for (const visual of [
+    { type: 'gallery', cover: 0, images: [] },
+    { type: 'gallery', cover: 0, images: null },
+    ...[-1, 1, 0.5, '0', undefined].map(cover => ({ type: 'gallery', cover, images: [image] })),
+    { type: 'gallery', cover: 0, images: [null] },
+    { type: 'gallery', cover: 0, images: [{ ...image, label: ' ' }] },
+    { type: 'gallery', cover: 0, images: [{ ...image, src: '../private.png' }] },
+    { type: 'gallery', cover: 0, images: [{ ...image, src: 'assets/projects/script.svg' }] },
+    { type: 'gallery', cover: 0, images: [image, image] },
+    { type: 'pending', prompt: 'Modo removido' },
+    { type: 'image', ...image }
+  ]) {
+    content.projects[0].visual = visual;
+    assert.throws(() => validatePortfolio(content));
+  }
+});
+
+test('content and resume preserve the ordered project list and accept an empty collection', () => {
+  const content = structuredClone(source);
+  content.projects.reverse();
+  const orderedIds = content.projects.map(project => project.id);
+  assert.equal(validatePortfolio(content), content);
+  assert.deepEqual(content.projects.map(project => project.id), orderedIds);
+  const projectResume = createResume(content).split(`## ${content.ui.resumeProjectHeading}`)[1];
+  const titlePositions = content.projects.map(project => projectResume.indexOf(project.title));
+  assert.ok(titlePositions.every((position, index) => position >= 0 && (index === 0 || position > titlePositions[index - 1])));
+  content.projects = [];
+  assert.equal(validatePortfolio(content), content);
 });
 
 test('resume reflects JSON edits, including work history, projects and education', () => {

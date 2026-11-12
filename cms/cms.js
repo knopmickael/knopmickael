@@ -4,8 +4,9 @@ const $ = selector => document.querySelector(selector);
 const view = $('#view');
 const dialog = $('#editor');
 let data, revision, token, dirty = false, busy = false, currentView = 'projects', formDirty = false;
-let query = '', categoryFilter = 'all', pendingOnly = false, section = 'profile';
-let returnFocus, previewUrl, submitting = false;
+let query = '', section = 'profile';
+let returnFocus, submitting = false;
+const previewUrls = new Set();
 
 function el(tag, attributes = {}, ...children) {
   const node = document.createElement(tag);
@@ -47,7 +48,6 @@ function updateState() {
   $('#export').disabled = !data || busy;
   if (data) {
     $('#project-count').textContent = data.projects.length;
-    $('#category-count').textContent = data.projectsSection.categories.length - 1;
   }
 }
 function changed() { dirty = true; updateState(); }
@@ -91,8 +91,8 @@ document.querySelectorAll('[data-view]').forEach(node => node.addEventListener('
 dialog.addEventListener('cancel', event => { event.preventDefault(); closeEditor(); });
 dialog.addEventListener('close', () => {
   formDirty = false;
-  if (previewUrl) URL.revokeObjectURL(previewUrl);
-  previewUrl = undefined;
+  previewUrls.forEach(url => URL.revokeObjectURL(url));
+  previewUrls.clear();
   if (returnFocus?.isConnected) returnFocus.focus();
   else $('#save').focus();
 });
@@ -124,7 +124,6 @@ function render() {
   });
   updateState();
   if (currentView === 'projects') renderProjects();
-  else if (currentView === 'categories') renderCategories();
   else renderContent();
 }
 function heading(title, description, action) {
@@ -141,18 +140,15 @@ function renderProjects() {
   const list = el('div', { class: 'project-list' });
   const listStatus = el('p', { class: 'hint', role: 'status', 'aria-live': 'polite' });
   const searchInput = input('search', query, { type: 'search', placeholder: 'Nome, descrição ou tecnologia…', oninput: event => { query = event.target.value; fillList(); } });
-  const categoryInput = select('filter-category', categoryFilter, data.projectsSection.categories.map(item => [item.id, item.label]));
-  categoryInput.addEventListener('change', () => { categoryFilter = categoryInput.value; fillList(); });
-  const pendingInput = input('pending', '', { type: 'checkbox', checked: pendingOnly, onchange: event => { pendingOnly = event.target.checked; fillList(); } });
   function fillList() {
-    const projects = data.projects.filter(project => `${project.title} ${project.description} ${project.tags.join(' ')}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()) && (categoryFilter === 'all' || project.category === categoryFilter) && (!pendingOnly || project.visual.type === 'pending'));
+    const projects = data.projects.filter(project => `${project.title} ${project.description} ${project.tags.join(' ')}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
     list.replaceChildren(...projects.map(project => {
       const index = data.projects.indexOf(project);
-      const category = data.projectsSection.categories.find(item => item.id === project.category);
-      const mediaLabel = project.visual.type === 'image' ? 'Imagem própria' : project.visual.type === 'pending' ? 'Inferência pendente' : project.visual.type === 'repository' ? 'Visual técnico' : 'Ilustração conceitual';
+      const cover = project.visual.type === 'gallery' ? project.visual.images[project.visual.cover] : null;
+      const mediaLabel = cover ? `Galeria · ${project.visual.images.length} imagem(ns)` : 'Visual técnico';
       return el('article', { class: 'project-row' },
-        el('div', { class: 'thumbnail', 'aria-hidden': 'true' }, project.visual.type === 'image' ? el('img', { src: `/${project.visual.src}`, alt: '', loading: 'lazy' }) : '</>'),
-        el('div', { class: 'row-copy' }, el('h3', {}, project.title), el('p', {}, `${project.number} / ${category?.label || project.category} · ${project.tags.join(' · ')}`), el('div', { class: 'badges' }, el('span', { class: `badge ${project.visual.type === 'pending' ? 'pending' : ''}` }, mediaLabel), project.repositoryVisibility === 'private' ? el('span', { class: 'badge' }, 'Código privado') : null)),
+        el('div', { class: 'thumbnail', 'aria-hidden': 'true' }, cover ? el('img', { src: `/${cover.src}`, alt: '', loading: 'lazy' }) : '</>'),
+        el('div', { class: 'row-copy' }, el('h3', {}, project.title), el('p', {}, `${project.number} / ${project.tags.join(' · ')}`), el('div', { class: 'badges' }, el('span', { class: 'badge' }, mediaLabel), project.repositoryVisibility === 'private' ? el('span', { class: 'badge' }, 'Código privado') : null)),
         el('div', { class: 'row-actions' }, button('↑', () => moveProject(index, -1), 'quiet small', { disabled: index === 0, 'aria-label': `Mover para antes: ${project.title}` }), button('↓', () => moveProject(index, 1), 'quiet small', { disabled: index === data.projects.length - 1, 'aria-label': `Mover para depois: ${project.title}` }), button('Editar', () => editProject(project), 'secondary', { 'aria-label': `Editar projeto: ${project.title}` }), button('Remover', () => {
           if (!confirm(`Remover “${project.title}” do rascunho?`)) return;
           data.projects.splice(index, 1);
@@ -161,18 +157,16 @@ function renderProjects() {
         }, 'danger', { 'aria-label': `Remover projeto: ${project.title}` }))
       );
     }));
-    if (!projects.length) list.append(el('p', { class: 'empty' }, data.projects.length ? 'Nenhum projeto corresponde aos filtros.' : 'Seu próximo projeto começa aqui. Clique em “Novo projeto”.'));
+    if (!projects.length) list.append(el('p', { class: 'empty' }, data.projects.length ? 'Nenhum projeto corresponde à busca.' : 'Seu próximo projeto começa aqui. Clique em “Novo projeto”.'));
     listStatus.textContent = `${projects.length} de ${data.projects.length} projetos`;
   }
   fillList();
-  view.replaceChildren(heading('Projetos', 'Um acervo em movimento. Organize os projetos, os links e a apresentação de cada ideia.', button('+ Novo projeto', () => editProject(), 'primary')),
-    el('div', { class: 'metrics' }, [['Projetos no acervo', data.projects.length], ['Categorias', data.projectsSection.categories.length - 1], ['Inferências pendentes', data.projects.filter(project => project.visual.type === 'pending').length]].map(([label, count]) => el('div', { class: 'metric' }, el('strong', {}, String(count).padStart(2, '0')), label))),
-    el('div', { class: 'filters' }, field('Buscar projetos', searchInput), field('Categoria', categoryInput), el('label', { class: 'field check' }, pendingInput, 'Só inferência pendente')), listStatus, list);
+  view.replaceChildren(heading('Projetos', 'Use as setas para definir a ordem dos projetos no portfólio. Edite os links e a apresentação de cada ideia.', button('+ Novo projeto', () => editProject(), 'primary')),
+    el('div', { class: 'metrics' }, [['Projetos no acervo', data.projects.length], ['Projetos com galeria', data.projects.filter(project => project.visual.type === 'gallery').length], ['Visuais técnicos', data.projects.filter(project => project.visual.type === 'repository').length]].map(([label, count]) => el('div', { class: 'metric' }, el('strong', {}, String(count).padStart(2, '0')), label))),
+    el('div', { class: 'filters' }, field('Buscar projetos', searchInput)), listStatus, list);
 }
 function editProject(original) {
-  const categories = data.projectsSection.categories.filter(item => item.id !== 'all');
-  if (!categories.length) { feedback('Crie uma categoria antes de adicionar um projeto.', true); return; }
-  const project = structuredClone(original || { id: '', number: String(data.projects.length + 1).padStart(2, '0'), title: '', category: categories[0].id, type: '', description: '', tags: [], url: '', demoUrl: '', repositoryVisibility: 'public', visual: { type: 'repository' }, details: [] });
+  const project = structuredClone(original || { id: '', number: String(data.projects.length + 1).padStart(2, '0'), title: '', type: '', description: '', tags: [], url: '', demoUrl: '', repositoryVisibility: 'public', visual: { type: 'repository' }, details: [] });
   const form = el('form');
   const idInput = input('id', project.id, { required: true, pattern: '[a-z](?:[a-z0-9]|-)*' });
   const titleInput = input('title', project.title, { required: true, oninput: event => {
@@ -189,88 +183,89 @@ function editProject(original) {
     )));
   }
   drawDetails();
-  const modes = [['image', 'Subir imagem / screenshot'], ['pending', 'Pedir inferência posterior'], ['repository', 'Visual técnico · sem screenshot']];
-  if (!['image', 'pending', 'repository'].includes(project.visual.type)) modes.unshift(['existing', 'Manter ilustração atual']);
-  const mode = select('visual-mode', modes.some(([id]) => id === project.visual.type) ? project.visual.type : 'existing', modes);
-  const fileInput = input('image', '', { type: 'file', accept: 'image/png,image/jpeg,image/webp' });
-  const imagePreview = el('img', { class: 'media-preview', alt: 'Prévia da imagem selecionada', hidden: project.visual.type !== 'image', src: project.visual.type === 'image' ? `/${project.visual.src}` : undefined });
-  const imageFields = el('div', {}, field('Imagem do projeto', fileInput, 'PNG, JPEG ou WebP · até 8 MB. O arquivo é copiado para assets/projects/ ao aplicar o projeto.'), imagePreview, field('Descrição da imagem (texto alternativo)', input('image-alt', project.visual.label || '')));
-  const pendingFields = el('div', {}, field('Briefing para inferência posterior', textarea('prompt', project.visual.prompt || ''), 'Descreva a composição desejada e as referências. O pedido fica no JSON; nenhuma IA é chamada pelo CMS.'));
+  const mode = select('visual-mode', project.visual.type, [['repository', 'Visual técnico — sem screenshot'], ['gallery', 'Galeria']]);
+  const gallery = project.visual.type === 'gallery' ? structuredClone(project.visual.images) : [];
+  let cover = gallery[project.visual.cover] || gallery[0];
+  const fileInput = input('images', '', { type: 'file', multiple: true, accept: 'image/png,image/jpeg,image/webp' });
+  const galleryList = el('div', { class: 'gallery-list' });
+  const galleryStatus = el('p', { class: 'hint', role: 'status', 'aria-live': 'polite' });
+  const uploadError = el('p', { class: 'form-error', role: 'alert' });
+  const imageFields = el('div', {}, field('Adicionar imagens à galeria', fileInput, 'Selecione várias imagens wide ou mobile. PNG, JPEG ou WebP · até 8 MB por imagem. Defina uma capa e descreva cada imagem.'), uploadError, galleryStatus, galleryList);
+  function drawGallery(focusIndex, focusCover = false) {
+    galleryList.replaceChildren(...gallery.map((image, index) => {
+      const coverInput = input('gallery-cover', index, { type: 'radio', checked: cover === image, 'aria-label': `Usar imagem ${index + 1} como capa`, onchange: () => { cover = image; formDirty = true; drawGallery(index, true); } });
+      const move = direction => {
+        [gallery[index], gallery[index + direction]] = [gallery[index + direction], gallery[index]];
+        formDirty = true; drawGallery(index + direction);
+      };
+      return el('div', { class: `gallery-entry${cover === image ? ' is-cover' : ''}` },
+        el('img', { class: 'media-preview', src: image.preview || `/${image.src}`, alt: image.label || `Prévia da imagem ${index + 1}` }),
+        el('div', { class: 'gallery-entry-body' },
+          el('label', { class: 'check' }, coverInput, cover === image ? 'Capa do projeto' : 'Usar como capa'),
+          image.file ? el('p', { class: 'hint gallery-filename' }, image.file.name) : null,
+          field(`Descrição da imagem ${index + 1} (texto alternativo)`, input(`image-alt-${index}`, image.label, { required: mode.value === 'gallery', oninput: event => { image.label = event.target.value; } }), 'Ex.: Tela de batalhas na versão mobile.'),
+          el('div', { class: 'actions' },
+            button('↑', () => move(-1), 'secondary small', { disabled: index === 0, 'aria-label': `Mover imagem ${index + 1} para antes` }),
+            button('↓', () => move(1), 'secondary small', { disabled: index === gallery.length - 1, 'aria-label': `Mover imagem ${index + 1} para depois` }),
+            button('Remover imagem', () => {
+              gallery.splice(index, 1);
+              if (cover === image) cover = gallery[0];
+              if (image.preview) { URL.revokeObjectURL(image.preview); previewUrls.delete(image.preview); }
+              formDirty = true; drawGallery(Math.min(index, gallery.length - 1));
+            }, 'danger', { 'aria-label': `Remover imagem ${index + 1}` }))));
+    }));
+    galleryStatus.textContent = gallery.length ? `${gallery.length} imagem(ns) · a capa abre o carrossel no site.` : 'A galeria precisa de pelo menos uma imagem. A primeira será a capa até você escolher outra.';
+    if (focusIndex >= 0) (focusCover ? galleryList.querySelectorAll('[name="gallery-cover"]')[focusIndex] : galleryList.querySelector(`[name="image-alt-${focusIndex}"]`))?.focus();
+  }
   const fallbackHint = el('p', { class: 'hint' }, 'O site usa uma capa técnica com o título e as tecnologias. Não é apresentada como screenshot do produto.');
   function changeMode() {
-    imageFields.hidden = mode.value !== 'image'; pendingFields.hidden = mode.value !== 'pending'; fallbackHint.hidden = !['pending', 'repository'].includes(mode.value);
-    fileInput.required = mode.value === 'image' && project.visual.type !== 'image';
-    imageFields.querySelector('[name="image-alt"]').required = mode.value === 'image';
-    pendingFields.querySelector('textarea').required = mode.value === 'pending';
+    imageFields.hidden = mode.value !== 'gallery'; fallbackHint.hidden = mode.value !== 'repository';
+    imageFields.querySelectorAll('[name^="image-alt-"]').forEach(control => { control.required = mode.value === 'gallery'; });
   }
-  mode.addEventListener('change', changeMode); changeMode();
+  mode.addEventListener('change', changeMode); drawGallery(); changeMode();
   fileInput.addEventListener('change', () => {
-    const file = fileInput.files[0];
-    fileInput.setCustomValidity('');
-    if (!file) return;
-    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) {
-      fileInput.setCustomValidity('Selecione PNG, JPEG ou WebP de até 8 MB.'); fileInput.reportValidity(); return;
+    const files = [...fileInput.files];
+    uploadError.textContent = '';
+    if (files.some(file => !['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || !file.size || file.size > 8 * 1024 * 1024)) {
+      uploadError.textContent = 'Selecione apenas PNG, JPEG ou WebP de até 8 MB por imagem.';
+      fileInput.value = ''; return;
     }
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    previewUrl = URL.createObjectURL(file); imagePreview.src = previewUrl; imagePreview.hidden = false;
+    for (const file of files) {
+      const preview = URL.createObjectURL(file); previewUrls.add(preview);
+      gallery.push({ label: '', file, preview });
+    }
+    cover ||= gallery[0];
+    fileInput.value = ''; drawGallery();
   });
   form.append(el('div', { class: 'editor-body' }, el('p', { class: 'hint' }, 'Aplicar atualiza o rascunho. “Salvar no JSON” grava todas as mudanças no arquivo.'),
-    el('fieldset', {}, el('legend', {}, '01 / O projeto'), el('div', { class: 'form-grid' }, field('Título', titleInput), field('Identificador único', idInput, 'Letras minúsculas, números e hífens.'), field('Categoria', select('category', project.category, categories.map(item => [item.id, item.label]))), field('Tipo / chamada', input('type', project.type, { required: true, placeholder: 'APLICAÇÃO WEB' }))), field('Descrição', textarea('description', project.description, { required: true })), field('Tecnologias', input('tags', project.tags.join(', ')), 'Separe por vírgulas.')),
+    el('fieldset', {}, el('legend', {}, '01 / O projeto'), el('div', { class: 'form-grid' }, field('Título', titleInput), field('Identificador único', idInput, 'Letras minúsculas, números e hífens.'), field('Tipo / chamada', input('type', project.type, { required: true, placeholder: 'APLICAÇÃO WEB' }))), field('Descrição', textarea('description', project.description, { required: true })), field('Tecnologias', input('tags', project.tags.join(', ')), 'Separe por vírgulas.')),
     el('fieldset', {}, el('legend', {}, '02 / Links e código'), field('Visibilidade do código', select('visibility', project.repositoryVisibility || 'public', [['public', 'Público / não informado'], ['private', 'Repositório privado']])), field('URL do repositório (opcional)', input('url', project.url || '', { type: 'url', placeholder: 'https://github.com/…' }), 'Deixe vazio se não houver código público.'), field('URL do site / demo (opcional)', input('demoUrl', project.demoUrl || '', { type: 'url', placeholder: 'https://…' }))),
-    el('fieldset', {}, el('legend', {}, '03 / Apresentação visual'), field('Como apresentar este projeto?', mode), el('div', { class: 'visual-options' }, imageFields, pendingFields, fallbackHint)),
+    el('fieldset', {}, el('legend', {}, '03 / Apresentação visual'), field('Como apresentar este projeto?', mode), el('div', { class: 'visual-options' }, imageFields, fallbackHint)),
     el('fieldset', {}, el('legend', {}, '04 / Detalhes do projeto'), details, button('+ Adicionar bloco', () => { detailList.push({ title: '', text: '' }); formDirty = true; drawDetails(); }))
   ));
   openEditor(original ? 'Editar projeto' : 'Novo projeto', form, 'Aplicar projeto', async values => {
     const value = name => String(values.get(name) || '').trim();
-    const updated = { ...project, id: value('id'), title: value('title'), category: value('category'), type: value('type'), description: value('description'), tags: value('tags').split(',').map(tag => tag.trim()).filter(Boolean), url: value('url'), demoUrl: value('demoUrl'), repositoryVisibility: value('visibility'), details: detailList };
+    const updated = { ...project, id: value('id'), title: value('title'), type: value('type'), description: value('description'), tags: value('tags').split(',').map(tag => tag.trim()).filter(Boolean), url: value('url'), demoUrl: value('demoUrl'), repositoryVisibility: value('visibility'), details: detailList };
     const selectedMode = value('visual-mode');
-    if (selectedMode === 'pending') updated.visual = { type: 'pending', prompt: value('prompt') };
+    if (selectedMode === 'gallery' && !gallery.length) throw new Error('Adicione pelo menos uma imagem à galeria.');
     if (selectedMode === 'repository') updated.visual = { type: 'repository' };
-    if (selectedMode === 'image') updated.visual = { type: 'image', src: project.visual.type === 'image' ? project.visual.src : 'assets/projects/placeholder.png', label: value('image-alt') };
+    if (selectedMode === 'gallery') updated.visual = { type: 'gallery', cover: gallery.indexOf(cover), images: gallery.map((image, index) => ({ src: image.src || `assets/projects/upload-${index}.png`, label: image.label.trim() })) };
     const candidate = structuredClone(data);
     const index = original ? data.projects.indexOf(original) : data.projects.length;
     candidate.projects[index] = updated;
     validatePortfolio(candidate);
-    const file = fileInput.files[0];
-    if (selectedMode === 'image' && file) {
-      const result = await api('/api/images', { method: 'POST', headers: { 'Content-Type': file.type }, body: file });
-      updated.visual.src = result.src;
+    if (selectedMode === 'gallery') {
+      for (const [imageIndex, image] of gallery.entries()) {
+        if (image.file) {
+          const result = await api('/api/images', { method: 'POST', headers: { 'Content-Type': image.file.type }, body: image.file });
+          image.src = result.src; image.file = undefined;
+        }
+        updated.visual.images[imageIndex].src = image.src;
+      }
     }
     data.projects[index] = updated;
   });
 }
-function renderCategories() {
-  view.replaceChildren(heading('Categorias', 'Filtros que fazem sentido para o seu acervo. Renomear uma categoria atualiza os projetos vinculados.', button('+ Nova categoria', () => editCategory(), 'primary')),
-    el('div', { class: 'category-list' }, data.projectsSection.categories.map(category => {
-      const count = data.projects.filter(project => project.category === category.id).length;
-      return el('article', { class: 'category-row' }, el('div', { class: 'row-copy' }, el('h3', {}, category.label), el('p', {}, category.id === 'all' ? 'Filtro geral · identificador reservado' : `${category.id} · ${count} projeto(s)`)), el('div', { class: 'actions' }, button('Editar', () => editCategory(category), 'secondary', { 'aria-label': `Editar categoria: ${category.label}` }), category.id !== 'all' ? button('Remover', () => removeCategory(category), 'danger', { 'aria-label': `Remover categoria: ${category.label}` }) : null));
-    })));
-}
-function editCategory(original) {
-  const form = el('form', {}, el('div', { class: 'editor-body' }, field('Nome da categoria', input('label', original?.label || '', { required: true })), field('Identificador', input('id', original?.id || '', { required: true, pattern: '[a-z](?:[a-z0-9]|-)*', readonly: original?.id === 'all' }), 'Exemplo: mobile, backend ou jogos.')));
-  openEditor(original ? 'Editar categoria' : 'Nova categoria', form, 'Aplicar categoria', values => {
-    const id = values.get('id').trim(), label = values.get('label').trim();
-    if (!label) throw new Error('Informe um nome para a categoria.');
-    if (data.projectsSection.categories.some(item => item !== original && item.id === id)) throw new Error('Já existe uma categoria com esse identificador.');
-    if (original) {
-      data.projects.forEach(project => { if (project.category === original.id) project.category = id; });
-      if (categoryFilter === original.id) categoryFilter = id;
-      Object.assign(original, { id, label });
-    } else data.projectsSection.categories.push({ id, label });
-  });
-}
-function removeCategory(category) {
-  const count = data.projects.filter(project => project.category === category.id).length;
-  const options = data.projectsSection.categories.filter(item => !['all', category.id].includes(item.id));
-  if (count && !options.length) { feedback('Crie outra categoria antes de remover esta: há projetos vinculados que precisam de um destino.', true); return; }
-  const form = el('form', {}, el('div', { class: 'editor-body' }, el('p', { class: 'description' }, `Remover “${category.label}” do rascunho? ${count} projeto(s) vinculado(s).`), count ? field('Mover projetos para', select('destination', options[0].id, options.map(item => [item.id, item.label]))) : el('p', { class: 'hint' }, 'Nenhum projeto será removido.')));
-  openEditor('Remover categoria', form, 'Remover categoria', values => {
-    data.projects.forEach(project => { if (project.category === category.id) project.category = values.get('destination'); });
-    data.projectsSection.categories = data.projectsSection.categories.filter(item => item !== category);
-    if (categoryFilter === category.id) categoryFilter = 'all';
-  });
-}
-
 const labels = { meta: 'Metadados e tema', ui: 'Textos da interface', profile: 'Perfil', navigation: 'Navegação', header: 'Cabeçalho', hero: 'Apresentação inicial', system: 'Diagrama de camadas', technologyStrip: 'Faixa de tecnologias', about: 'Sobre', projectsSection: 'Seção de projetos', expertise: 'Repertório técnico', experience: 'Experiência', contact: 'Contato', footer: 'Rodapé', title: 'Título', description: 'Descrição', label: 'Rótulo', text: 'Texto', name: 'Nome', summary: 'Resumo', paragraphs: 'Parágrafos', items: 'Itens', groups: 'Grupos', entries: 'Experiências', tags: 'Tecnologias', url: 'URL', company: 'Empresa', role: 'Cargo', period: 'Período', current: 'Atual', eyebrow: 'Chamada superior', number: 'Número', icon: 'Ícone', id: 'Identificador', facts: 'Destaques', value: 'Valor', socials: 'Redes sociais', education: 'Formação', layers: 'Camadas', href: 'Destino' };
 function emptyFrom(shape) {
   if (Array.isArray(shape)) return [];
@@ -288,7 +283,7 @@ function editTree(parent, key, shape, path = key) {
     };
     redraw(); return box;
   }
-  if (value && typeof value === 'object') return el('fieldset', {}, el('legend', {}, label), Object.keys(value).filter(child => !(path === 'projectsSection' && child === 'categories')).map(child => editTree(value, child, shape?.[child], `${path}.${child}`)));
+  if (value && typeof value === 'object') return el('fieldset', {}, el('legend', {}, label), Object.keys(value).map(child => editTree(value, child, shape?.[child], `${path}.${child}`)));
   const type = typeof value;
   let control;
   if (type === 'boolean') control = input(path, '', { type: 'checkbox', checked: value, onchange: event => { parent[key] = event.target.checked; changed(); } });

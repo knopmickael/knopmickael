@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 4,
   "meta": {
     "title": "Mickael Knop — Engenheiro de Software",
     "description": "Engenharia de software de ponta a ponta. Conheça o trabalho de Mickael Knop com backend, aplicações web, integrações, arquitetura e cloud.",
@@ -29,16 +29,17 @@
     "previousProject": "Projeto anterior",
     "nextProject": "Próximo projeto",
     "carouselPosition": "{start}–{end} / {count} projetos",
-    "carouselEmpty": "Nenhum projeto nesta seleção",
-    "filterLabel": "Filtrar projetos por área",
-    "projectCount": "{count} projetos nesta seleção",
-    "projectCountSingular": "{count} projeto nesta seleção",
+    "carouselEmpty": "Nenhum projeto cadastrado",
+    "galleryLabel": "Galeria de {title}. Use as setas para ver as imagens.",
+    "previousImage": "Imagem anterior",
+    "nextImage": "Próxima imagem",
+    "galleryPosition": "{current} / {count}",
+    "galleryImageError": "Imagem indisponível. Explore as outras imagens da galeria.",
     "emptyTitle": "Novas ideias estão a caminho.",
-    "emptyDescription": "Ainda não há projetos nesta categoria. Explore as outras áreas.",
+    "emptyDescription": "Em breve, novos projetos estarão disponíveis por aqui.",
     "copySuccess": "Link do LinkedIn copiado!",
     "copyError": "Não foi possível copiar. Abra o contato pelo botão do LinkedIn.",
     "backToTop": "Voltar ao início",
-    "illustrationLabel": "Ilustração conceitual",
     "resumeFilename": "Mickael-Knop-Curriculo.md",
     "resumeLabel": "Baixar currículo",
     "resumeProjectHeading": "Projetos",
@@ -197,86 +198,260 @@
       "Ideias em prática."
     ],
     "description": "Aplicações, código aberto e experimentos. Explore o acervo e as diferentes ideias por trás de cada projeto.",
-    "githubLabel": "Mais no GitHub",
-    "categories": [
-      {
-        "id": "all",
-        "label": "Todos"
-      },
-      {
-        "id": "fullstack",
-        "label": "Full-stack"
-      },
-      {
-        "id": "backend",
-        "label": "Backend"
-      },
-      {
-        "id": "systems",
-        "label": "Sistemas & integrações"
-      },
-      {
-        "id": "frontend",
-        "label": "Frontend"
-      },
-      {
-        "id": "mobile",
-        "label": "Mobile"
-      },
-      {
-        "id": "games",
-        "label": "Jogos"
-      }
-    ]
+    "githubLabel": "Mais no GitHub"
   },
   "projects": [
     {
       "id": "rave-trail",
       "number": "01",
       "title": "Rave Trail",
-      "category": "games",
       "type": "JRPG DE NAVEGADOR",
       "description": "Um jogo de navegador com equipes, campanha, missões e batalhas, conectando React, uma API Fastify e PostgreSQL.",
       "tags": [
         "TypeScript",
         "React",
+        "SPA",
+        "Node.js",
         "Fastify",
-        "PostgreSQL"
+        "REST API",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "Lightsail",
+        "ECR",
+        "Caddy",
+        "CI/CD",
+        "SDD",
+        "AI"
       ],
       "url": "https://github.com/knopmickael/rave-trail",
       "demoUrl": "https://rave-trail.com.br/",
       "visual": {
-        "type": "pending",
-        "prompt": "Criar uma composição para o JRPG Rave Trail a partir de screenshots reais fornecidos posteriormente. Destacar equipes e batalhas, preservando a identidade do jogo. Não inventar telas ou apresentar uma ilustração como screenshot."
+        "type": "gallery",
+        "cover": 0,
+        "images": [
+          {
+            "src": "assets/projects/a6168172-bf14-4b6e-b248-3d28075c10a4.png",
+            "label": "Batalha"
+          },
+          {
+            "src": "assets/projects/d905bcb0-9ac0-4c3b-8e32-f96e4fb8b6ba.png",
+            "label": "Mapa campanha"
+          },
+          {
+            "src": "assets/projects/2704ca91-f8e5-4a4a-8500-38c3a34a8019.png",
+            "label": "Lista de personagem"
+          },
+          {
+            "src": "assets/projects/5f82fe59-160d-4a93-b9f8-6f864f12feed.png",
+            "label": "CMS"
+          }
+        ]
       },
       "details": [
         {
           "title": "O projeto",
           "text": "JRPG de navegador com interface React/TypeScript/Vite, API Fastify e persistência em PostgreSQL. O servidor mantém contas, equipes, campanha, missões e resultados oficiais das batalhas."
-        },
+        }
+      ],
+      "repositoryVisibility": "public"
+    },
+    {
+      "id": "screw-tecnologia-em-transporte-helicoidal",
+      "number": "02",
+      "title": "Screw - Tecnologia em Transporte Helicoidal",
+      "type": "APLICAÇÃO WEB",
+      "description": "Website institucional da empresa Screw com gerenciador de conteúdo, catálogo de produtos, listagem de clientes, board de notícias e formulários de contato com a empresa em Laravel, Vue.js e MySQL.",
+      "tags": [
+        "PHP",
+        "Laravel",
+        "Vue.js",
+        "Tailwind CSS",
+        "TinyMCE",
+        "MySQL",
+        "SQLite",
+        "VPS",
+        "Hostinger"
+      ],
+      "url": "",
+      "demoUrl": "https://screw.ind.br/",
+      "repositoryVisibility": "private",
+      "visual": {
+        "type": "gallery",
+        "cover": 0,
+        "images": [
+          {
+            "src": "assets/projects/563bf9a8-7dfa-4344-853c-f88dc181d4d3.png",
+            "label": "Website desktop"
+          },
+          {
+            "src": "assets/projects/943a4403-b62a-4e2c-abb7-45eaebb8f01a.png",
+            "label": "Website mobile"
+          },
+          {
+            "src": "assets/projects/3ab81a95-35ed-4334-ba68-e23df141c99c.png",
+            "label": "CMS"
+          }
+        ]
+      },
+      "details": [
         {
-          "title": "As fronteiras",
-          "text": "Frontend, backend e módulos compartilhados separam a apresentação, os contratos e o motor de combate. O repositório documenta a arquitetura, as migrações e os comandos de build e testes."
+          "title": "O projeto",
+          "text": "Site institucional multilíngue com catálogo de produtos, notícias, agenda, formulários de relacionamento e painel administrativo próprio (CMS)."
         }
       ]
     },
     {
+      "id": "caumaq-health-technology",
+      "number": "03",
+      "title": "CAUMAQ - Health Technology",
+      "type": "APLICAÇÃO WEB",
+      "description": "Website institucional da empresa CAUMAQ com gerenciador de conteúdo, catálogo de produtos, área do cliente, board de notícias, depoimentos e formulários de contato com a empresa em Laravel com MySQL.",
+      "tags": [
+        "Laravel",
+        "Blade",
+        "Livewire",
+        "Alpine.js",
+        "Tailwind CSS",
+        "TinyMCE",
+        "MySQL",
+        "VPS",
+        "HostGator"
+      ],
+      "url": "",
+      "demoUrl": "https://caumaq.com.br/",
+      "repositoryVisibility": "private",
+      "visual": {
+        "type": "gallery",
+        "cover": 0,
+        "images": [
+          {
+            "src": "assets/projects/da25ffac-fc51-4a6f-8972-98f5bf9377c0.png",
+            "label": "Website desktop"
+          },
+          {
+            "src": "assets/projects/15ed9c7a-209a-4cc6-90c3-1649c8f7a5f0.png",
+            "label": "Catálogo de produtos"
+          },
+          {
+            "src": "assets/projects/07a10fca-5a61-473d-a9ac-4b8fd7f57481.png",
+            "label": "Website mobile"
+          }
+        ]
+      },
+      "details": []
+    },
+    {
+      "id": "brecho-curadoria",
+      "number": "04",
+      "title": "Brechó Curadoria",
+      "type": "APLICAÇÃO WEB",
+      "description": "Loja virtual da empresa Brechó Curadoria by Júlia Effell com gerenciador de conteúdo, catálogo de produtos, área do cliente, carrinho de compras, checkout e formulários de contato com a empresa.",
+      "tags": [
+        "TypeScript",
+        "React",
+        "SPA",
+        "Node.js",
+        "Fastify",
+        "REST API",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "Lightsail",
+        "ECR",
+        "Caddy",
+        "CI/CD",
+        "SDD"
+      ],
+      "url": "",
+      "demoUrl": "",
+      "repositoryVisibility": "private",
+      "visual": {
+        "type": "gallery",
+        "cover": 0,
+        "images": [
+          {
+            "src": "assets/projects/f2722f6f-449e-4e0f-b2c3-46af26680c8a.png",
+            "label": "Website desktop"
+          },
+          {
+            "src": "assets/projects/8007e955-9e23-4c46-aa83-34d88c42fd47.png",
+            "label": "Website mobile"
+          },
+          {
+            "src": "assets/projects/2dd96e4f-cb5d-4354-a23b-aa4dbac34f0e.png",
+            "label": "CMS"
+          }
+        ]
+      },
+      "details": []
+    },
+    {
+      "id": "comercio-de-extracao-de-areia-ltda",
+      "number": "05",
+      "title": "2F - Comércio de Extração de Areia LTDA",
+      "type": "APLICAÇÃO WEB",
+      "description": "Website da empresa 2F Mineradora com gerenciador de conteúdo, informações institucionais, board de notícias e formulários de contato com a empresa em Laravel, Vue.js e MySQL.",
+      "tags": [
+        "Laravel",
+        "Inertia.js",
+        "Vue.js",
+        "Tailwind CSS",
+        "TinyMCE",
+        "MySQL",
+        "VPS",
+        "Hostinger"
+      ],
+      "url": "",
+      "demoUrl": "https://2fmineradora.com.br/",
+      "repositoryVisibility": "private",
+      "visual": {
+        "type": "gallery",
+        "cover": 0,
+        "images": [
+          {
+            "src": "assets/projects/b4bb2699-8f87-43bc-a877-76768d8c905f.png",
+            "label": "Website desktop"
+          },
+          {
+            "src": "assets/projects/b139721d-7b88-4260-b530-bf42eacb1e1e.png",
+            "label": "Website mobile"
+          },
+          {
+            "src": "assets/projects/87cb6c64-0ad4-4132-999b-60caf42135ca.png",
+            "label": "Board de notícias"
+          },
+          {
+            "src": "assets/projects/2feae635-1d88-433c-99ce-00b481be2385.png",
+            "label": "CMS"
+          }
+        ]
+      },
+      "details": []
+    },
+    {
       "id": "contabilidade-caseira",
-      "number": "02",
+      "number": "06",
       "title": "Contabilidade Caseira",
-      "category": "fullstack",
       "type": "FINANÇAS PESSOAIS",
       "description": "Controle de receitas e despesas em um quadro mensal, com categorias, parcelamentos e persistência local em SQLite.",
       "tags": [
         "JavaScript",
         "Node.js",
         "SQLite",
-        "HTML / CSS"
+        "CSS 3",
+        "SDD"
       ],
       "url": "https://github.com/knopmickael/contabilidade-caseira",
       "visual": {
-        "type": "pending",
-        "prompt": "Preparar uma composição a partir de um print real do quadro mensal da Contabilidade Caseira, com dados fictícios de demonstração. Evidenciar as colunas por mês e os totais, sem expor informações financeiras pessoais."
+        "type": "gallery",
+        "cover": 0,
+        "images": [
+          {
+            "src": "assets/projects/9d8e0407-258c-4a34-96b1-536edce95506.png",
+            "label": "Dashboard"
+          }
+        ]
       },
       "details": [
         {
@@ -287,141 +462,14 @@
           "title": "Organização financeira",
           "text": "O projeto reúne receitas, gastos por categoria e subcategoria, parcelamentos, replicação de despesas e um saldo separado para vale-alimentação. Meses podem ser arquivados e restaurados."
         }
-      ]
-    },
-    {
-      "id": "omdb",
-      "number": "03",
-      "title": "OMDb Movies Showcase",
-      "category": "fullstack",
-      "type": "APLICAÇÃO FULL-STACK",
-      "description": "Uma API NestJS e um cliente React conectados para explorar informações de filmes do universo OMDb.",
-      "tags": [
-        "TypeScript",
-        "NestJS",
-        "React",
-        "REST API"
       ],
-      "url": "https://github.com/knopmickael/omdb-movies-showcase",
-      "visual": {
-        "type": "cinema",
-        "label": "Composição gráfica conceitual de um catálogo de cinema OMDb, com cartões de filmes abstratos.",
-        "eyebrow": "A WORLD OF STORIES",
-        "title": "OMDb",
-        "mark": "↗",
-        "subtitle": "Discover your next story.",
-        "items": [
-          "01",
-          "02",
-          "03"
-        ],
-        "footer": "MOVIES / DISCOVER / EXPLORE"
-      },
-      "details": [
-        {
-          "title": "O projeto",
-          "text": "Uma aplicação pública composta por uma API web em NestJS, que consulta dados da OMDb, e um cliente React, que apresenta as informações em uma interface web."
-        },
-        {
-          "title": "O que conecta as peças",
-          "text": "Separação entre frontend, backend e serviço externo de filmes. O projeto exercita consumo de APIs HTTP e a construção de uma experiência full-stack com TypeScript."
-        },
-        {
-          "title": "Explore o código",
-          "text": "O repositório reúne a aplicação e sua descrição. Consulte as instruções e a implementação para conhecer o estado atual do projeto."
-        }
-      ]
-    },
-    {
-      "id": "webstore",
-      "number": "04",
-      "title": "Webstore · Sistema de pedidos",
-      "category": "backend",
-      "type": "BACKEND & PROCESSAMENTO ASSÍNCRONO",
-      "description": "Um laboratório de pedidos com Laravel: eventos, filas, cache e processamento assíncrono com Redis.",
-      "tags": [
-        "PHP",
-        "Laravel",
-        "PostgreSQL",
-        "Redis"
-      ],
-      "url": "https://github.com/knopmickael/webstore-laravel",
-      "visual": {
-        "type": "pipeline",
-        "label": "Diagrama conceitual do fluxo de pedidos: uma requisição gera um evento, uma fila e um processamento em worker.",
-        "eyebrow": "ORDER PROCESSING",
-        "title": "Um pedido.\nUm fluxo bem definido.",
-        "subtitle": "EVENT-DRIVEN BY DESIGN",
-        "items": [
-          "POST /orders",
-          "OrderPlaced",
-          "Redis queue",
-          "Worker"
-        ],
-        "footer": "REQUEST → EVENT → QUEUE → JOB"
-      },
-      "details": [
-        {
-          "title": "O projeto",
-          "text": "Uma API REST de sistema de pedidos para explorar recursos do Laravel 11, com PHP 8.3+, PostgreSQL 16, Redis 7 e Docker para as dependências locais."
-        },
-        {
-          "title": "Decisões na prática",
-          "text": "O evento OrderPlaced aciona um listener que despacha ProcessOrderJob para uma fila Redis. A listagem de produtos usa cache, com invalidação por observer. API Resources e validação organizam os contratos HTTP."
-        },
-        {
-          "title": "Um laboratório de backend",
-          "text": "O repositório documenta os endpoints, a execução do worker e como observar a fila e o cache. É um projeto de estudo prático, com o fluxo disponível para inspeção e execução local."
-        }
-      ]
-    },
-    {
-      "id": "office-demo",
-      "number": "05",
-      "title": "Office API · Bug reproduction",
-      "category": "systems",
-      "type": "INVESTIGAÇÃO & INTEGRAÇÃO",
-      "description": "Um exemplo mínimo para investigar o comportamento de importação de arquivos na API do Microsoft Office.",
-      "tags": [
-        "JavaScript",
-        "Office.js",
-        "Debugging",
-        "Integrações"
-      ],
-      "url": "https://github.com/knopmickael/office-importFileAsBase64-bug-demo",
-      "visual": {
-        "type": "document",
-        "label": "Composição conceitual de um documento e um trecho de chamada à API do Office, representando uma reprodução mínima de bug.",
-        "eyebrow": "ISOLATE THE PROBLEM",
-        "title": "Menos ruído.\nMais evidência.",
-        "subtitle": "A MINIMAL REPRODUCTION",
-        "items": [
-          "document",
-          "importFileAsBase64()",
-          "inspect → reproduce"
-        ],
-        "footer": "OBSERVE / ISOLATE / REPRODUCE"
-      },
-      "details": [
-        {
-          "title": "O contexto",
-          "text": "Repositório público de demonstração de um comportamento na importação de arquivos pela API do Microsoft Office. Um recorte técnico relacionado ao trabalho com integrações documentais."
-        },
-        {
-          "title": "A abordagem",
-          "text": "Isolar um problema em um exemplo menor facilita a inspeção do comportamento de uma biblioteca e a comunicação técnica sobre o que acontece."
-        },
-        {
-          "title": "O escopo",
-          "text": "O material é uma reprodução de comportamento, não uma alegação de correção oficial da API. O repositório disponibiliza os arquivos e orienta servi-los com um servidor web local."
-        }
-      ]
+      "demoUrl": "",
+      "repositoryVisibility": "public"
     },
     {
       "id": "ionic-pride",
-      "number": "06",
+      "number": "07",
       "title": "Ionic Pride · Gestão de pessoas",
-      "category": "mobile",
       "type": "MVP COM IONIC",
       "description": "Um MVP em Ionic para gerenciar informações de colaboradores e fotos de perfil, com execução também no navegador.",
       "tags": [
@@ -431,8 +479,7 @@
       ],
       "url": "https://github.com/knopmickael/ionic-pride",
       "visual": {
-        "type": "pending",
-        "prompt": "Criar uma composição mobile para o Ionic Pride a partir de prints reais a serem fornecidos. Usar perfis fictícios e destacar o gerenciamento de colaboradores, sem expor dados pessoais."
+        "type": "repository"
       },
       "details": [
         {
