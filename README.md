@@ -1,31 +1,23 @@
 # Olá, sou Mickael Knop 👋
 
-**Engenheiro de Software · Backend · Full-stack · Cloud**
+**Senior Software Engineer | Tech Lead | Applied AI Engineer | SRE | Full-stack**
 
-Transformo desafios em software bem construído. Do backend à interface, gosto de entender o problema, conectar as peças e construir soluções que façam sentido para quem usa e para quem mantém.
+Transformo desafios em software bem construído. Do backend à interface, gosto de entender o problema, automatizar e conectar as peças e construir soluções que façam sentido para quem usa e para quem mantém.
 
-[LinkedIn](https://linkedin.com/in/knopmickael) · [Repositórios](https://github.com/knopmickael?tab=repositories)
+<a href="mailto:knopmickael@gmail.com" target="_blank"><img src="https://img.shields.io/badge/Gmail-ffffff?style=for-the-badge&logo=gmail&logoColor=orange"></a> 
+<a href="https://linkedin.com/in/knopmickael" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0B65C3?style=for-the-badge&logo=linkedin&logoColor=white"></a> 
+<a href="https://www.youtube.com/@knop.mickael" target="_blank"><img src="https://img.shields.io/badge/YouTube-323330?style=for-the-badge&logo=youtube&logoColor=red"></a> 
 
-## Sobre mim
+# 💻 Tech Stack:
 
-- Mais de seis anos de experiência em aplicações web e corporativas, APIs e integrações.
-- Atualmente na **Datainfo**, trabalhando com aplicações corporativas, integrações com o ecossistema Microsoft e evolução arquitetural para AWS.
-- Experiência de ponta a ponta: requisitos, modelagem, backend, interface, persistência e publicação.
-- Bacharel em **Sistemas de Informação pela ULBRA**.
-- No **Rio Grande do Sul, Brasil**, com atuação remota e experiência de colaboração com equipes internacionais.
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  ![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white) ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase) ![OpenStack](https://img.shields.io/badge/Openstack-%23f01742.svg?style=for-the-badge&logo=openstack&logoColor=white) ![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white) ![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white) ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) ![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka) ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)  ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) ![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white) ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white) ![Apache Tomcat](https://img.shields.io/badge/apache%20tomcat-%23F8DC75.svg?style=for-the-badge&logo=apache-tomcat&logoColor=black) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white) ![GitLab CI](https://img.shields.io/badge/gitlab%20CI-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white) ![SonarQube](https://img.shields.io/badge/SonarQube-black?style=for-the-badge&logo=sonarqube&logoColor=4E9BCD) ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white) ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-Gosto de investigar o que existe por trás das abstrações e escolher ferramentas a partir do problema. Tenho aprofundado meus estudos em **sistemas distribuídos, fundamentos de computação, observabilidade e workflows de engenharia com IA**.
+# 📊 GitHub Stats:
 
-## Repertório técnico
+![](https://github-readme-stats.vercel.app/api/top-langs/?username=knopmickael&theme=aura_dark&hide_border=false&include_all_commits=false&count_private=false&layout=compact)
 
-| Área | Tecnologias e práticas |
-| --- | --- |
-| Backend e integrações | Node.js, NestJS, Java, Spring Boot, PHP, Laravel, Python, Flask, REST e WebSockets |
-| Frontend | TypeScript, JavaScript, Vue.js, Quasar, React, Angular, HTML e CSS |
-| Dados | PostgreSQL, MySQL, SQL Server, MongoDB e Redis |
-| Arquitetura e cloud | Clean Architecture, DDD, Docker, CI/CD, AWS e Azure |
-| Ecossistema Microsoft | Microsoft 365, Office.js e Entra ID |
+![](https://github-readme-stats.vercel.app/api?username=knopmickael&theme=aura_dark&hide_border=false&include_all_commits=false&count_private=false)
 
 ## Vamos conversar?
 
-Gosto de trocar ideias sobre engenharia de software, arquitetura e desafios de integração. Para oportunidades ou uma conversa técnica, [me encontre no LinkedIn](https://linkedin.com/in/knopmickael).
+Gosto de trocar ideias sobre engenharia de software, arquitetura e desafios de integração, não exite em entrar em contato!
