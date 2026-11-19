@@ -1,7 +1,5 @@
 # Olá, sou Mickael Knop 👋
 
-**Senior Software Engineer | Tech Lead | Applied AI Engineer | SRE | Full-stack**
-
 Transformo desafios em software bem construído. Do backend à interface, gosto de entender o problema, automatizar e conectar as peças e construir soluções que façam sentido para quem usa e para quem mantém.
 
 <a href="mailto:knopmickael@gmail.com" target="_blank"><img src="https://img.shields.io/badge/Gmail-ffffff?style=for-the-badge&logo=gmail&logoColor=orange"></a> 
